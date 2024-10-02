@@ -10,21 +10,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps: 
-      - name: Checkout master branch from Github
+      - name: Step 1 - Checkout master branch from Github
         uses: actions/checkout@v4
         
-      - name: Set up JDK 17
+      - name: Step 2 - Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
 
-      - name: Build with Maven
+      - name: Step 3 - Have Github Action Build Maven Project
         run: mvn -B package --file pom.xml
 
-      - name: List the current directory
+      - name: Step 4 - List the current directory
         run: ls -a
 
-      - name: What is the target folder?
+      - name: Step 5 - What is the target folder?
         run: |
           cd target
           ls -a
