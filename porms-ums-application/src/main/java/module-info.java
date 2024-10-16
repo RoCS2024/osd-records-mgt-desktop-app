@@ -10,12 +10,10 @@ module porms.ums.application {
     opens com.system.demo to javafx.fxml;
     opens com.system.demo.controllers to javafx.fxml;
     opens com.system.demo.controllers.main to javafx.fxml;
-    opens com.system.demo.controllers.modal to javafx.fxml;
     opens com.system.demo.appl.model.user to javafx.fxml;
 
     exports com.system.demo.controllers;
     exports com.system.demo;
     exports com.system.demo.controllers.main;
-    exports com.system.demo.controllers.modal;
     exports com.system.demo.appl.model.user;
 }

@@ -6,27 +6,6 @@ import com.system.demo.appl.model.user.User;
 import java.util.List;
 
 public interface UserDao {
-
-    /**
-     * Saves the given user to the database.
-     *
-     * @param user the user to be saved
-     * @return the saved user
-     */
-    User saveUser(User user);
-
-    /**
-     * Retrieves the maximum user ID.
-     *
-     * @return the maximum user ID
-     */
-    long getMaxUserId();
-
-    /**
-     * Retrieves all users.
-     *
-     * @return list of all User
-     */
     List<User> getAllUsers();
 
     boolean addUser(User user);

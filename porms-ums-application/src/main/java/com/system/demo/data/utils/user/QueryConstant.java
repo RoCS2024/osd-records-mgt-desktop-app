@@ -27,9 +27,5 @@ public class QueryConstant {
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     public static final String GET_ROLE_BY_USERNAME_STATEMENT = "SELECT role FROM login WHERE username=?";
-    public static final String UPDATE_STATEMENT = "UPDATE student" +
-            " SET last_name = ?, first_name = ?,  middle_name = ?, sex = ?, birthdate = ?, birthplace = ?, religion = ?, email = ?, address = ?, contact_number = ?, citizenship = ?, civil_status = ?, section_section_id = ?"
-            + "  WHERE student_number = ?";
-
 
 }

@@ -15,11 +15,5 @@ public class UserInfoMgtApplication {
         UserDao userDaoImpl = new UserDaoImpl();
         this.userFacade = new UserFacadeImpl(userDaoImpl);
     }
-    /**
-     * This gets the Student Facade.
-     * @return the student facade.
-     */
-    public UserFacade getUserFacade() {
-        return userFacade;
-    }
 }
+

@@ -29,9 +29,6 @@ public class MainController {
     @FXML
     private ToggleButton toggleButton;
 
-    @FXML
-    private Button logButton;
-
     UserDao userFacade = new UserDaoImpl();
 
     @FXML
