@@ -12,12 +12,7 @@ import com.system.demo.data.user.dao.UserDao;
 
 public class UserFacadeImpl implements UserFacade {
 
-    /**
-     * The logger for this class.
-     */
-
     private UserDao userDao;
-
 
     /**
      * Constructs a new UserFacadeImpl with the provided UserDao.
