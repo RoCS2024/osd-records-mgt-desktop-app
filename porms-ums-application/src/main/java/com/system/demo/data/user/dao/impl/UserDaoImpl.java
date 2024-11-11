@@ -14,63 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.system.demo.data.utils.user.QueryConstant.*;
-import static com.system.demo.data.utils.user.QueryConstant.GET_ROLE_BY_USERNAME_STATEMENT;
 
 
 public class UserDaoImpl implements UserDao {
 
 
     public static final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
-
-
-    @Override
-    public User saveUser(User user) {
-        try (Connection connection = ConnectionHelper.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(SAVE_USER_STATEMENT);
-
-            // Set the parameters for the prepared statement
-
-            preparedStatement.setInt(1, user.getIsActive());
-            preparedStatement.setInt(2, user.getIsLocked());
-            preparedStatement.setString(3, user.getUserId());
-            preparedStatement.setTimestamp(4, new Timestamp(user.getJoinDate().getTime()));
-            preparedStatement.setTimestamp(5, new Timestamp(user.getLastLoginDate().getTime()));
-            preparedStatement.setString(6, user.getAuthorities());
-            preparedStatement.setString(7, user.getOtp());
-            preparedStatement.setString(8, user.getPassword());
-            preparedStatement.setString(9, user.getRole());
-            preparedStatement.setString(10, user.getUsername());
-
-
-            preparedStatement.executeUpdate();
-
-            LOGGER.debug("User saved successfully.");
-        } catch (Exception e) {
-
-            LOGGER.error("An SQL Exception occurred: " + e.getMessage());
-        }
-
-        return user;
-    }
-
-
-    @Override
-    public long getMaxUserId() {
-
-        try (Connection connection = ConnectionHelper.getConnection())
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_MAX_USER_ID_STATEMENT);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                LOGGER.debug("MaxUser ID get successfully.");
-                return resultSet.getLong("MAX_ID");
-            }
-        } catch (Exception e) {
-            LOGGER.error("An SQL Exception occurred." + e.getMessage());
-        }
-        LOGGER.debug("Getting MaxUser ID failed.");
-        return 0;
-    }
 
     @Override
     public List<User> getAllUsers() {

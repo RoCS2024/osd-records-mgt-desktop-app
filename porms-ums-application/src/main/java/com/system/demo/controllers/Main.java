@@ -1,5 +1,4 @@
 package com.system.demo.controllers;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,15 +14,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/MainView.fxml"));
+        BorderPane mainLayout = loader.load();
 
-        loader.setLocation(getClass().getResource("/views/MainView.fxml"));
-
-        BorderPane mainLayout = new BorderPane();
-        mainLayout = loader.load();
 
         Scene scene = new Scene(mainLayout);
-//        stage.setTitle("Prefect System");
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
         stage.show();

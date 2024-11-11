@@ -22,35 +22,6 @@ public class User {
     private String username;
 
     /**
-     * Constructs a new User instance with the provided properties.
-     *
-     * @param isActive       Whether the user is active.
-     * @param isLocked       Whether the user is locked.
-     * @param id             The ID of the user.
-     * @param joinDate       The date when the user joined.
-     * @param authorities    The authorities of the user.
-     * @param otp            The OTP (One-Time Password) of the user.
-     * @param password       The password of the user.
-     * @param role           The role of the user.
-     * @param userId         The identity ID of the user.
-     * @param username       The username of the user.
-     * @param lastLoginDate  The last login date of the user.
-     */
-    public User(int isActive, int isLocked, long id, Timestamp joinDate, String authorities, String otp, String password, String role, String userId, String username, Timestamp lastLoginDate) {
-        this.isActive = isActive;
-        this.isLocked = isLocked;
-        this.id = id;
-        this.joinDate = joinDate;
-        this.authorities = authorities;
-        this.otp = otp;
-        this.password = password;
-        this.role = role;
-        this.userId = userId;
-        this.username = username;
-        this.lastLoginDate = lastLoginDate;
-    }
-
-    /**
      * Default constructor for User.
      */
     public User() {
@@ -253,20 +224,4 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-
-    // Setter method for date_modified
-    public void setDateModified(Timestamp dateModified) {
-        // Set the date_modified field
-    }
-
-    // Setter method for entity_id
-    public void setEntityId(String entityId) {
-        // Set the entity_id field
-    }
-
-    // Setter method for date_created
-    public void setDateCreated(Timestamp dateCreated) {
-        // Set the date_created field
-    }
-
 }

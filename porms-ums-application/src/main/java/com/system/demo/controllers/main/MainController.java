@@ -12,8 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 
@@ -31,32 +29,21 @@ public class MainController {
     @FXML
     private ToggleButton toggleButton;
 
-    @FXML
-    private Button logButton;
-
-    private User user;
-
     UserDao userFacade = new UserDaoImpl();
 
     @FXML
     protected void logButtonOnAction(ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getCharacters().toString();
-        String password2 = passwordShown.getText();
 
         try {
             User currentUser = userFacade.getUserByUsername(username);
             if (username.isEmpty() || password.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Username and password are required.");
-                alert.showAndWait();
-            } else if(currentUser != null && BCrypt.checkpw(password, currentUser.getPassword())) {
-                showAlert("Login Successful", "Welcome " + username + "!", Alert.AlertType.INFORMATION);
-                openDashboardWindow(event);
-            }
-            else{
+                showAlert("Error", "Username and password are required.", Alert.AlertType.ERROR);
+            } else if (currentUser != null && password.equals(currentUser.getPassword())) {
+                String role = userFacade.getUserRoleByUsername(username); // Fetch user role from database
+                openDashboardWindow(event, role);
+            } else {
                 showAlert("Login Failed", "Please double-check your username and password.", Alert.AlertType.ERROR);
             }
         } catch (Exception ex) {
@@ -73,21 +60,21 @@ public class MainController {
         alert.showAndWait();
     }
 
-    private void openDashboardWindow(ActionEvent event) {
+    private void openDashboardWindow(ActionEvent event, String role) {
         try {
-            Stage previousStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            previousStage.close();
-
-            Stage dashboardStage = new Stage();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/views/UserList.fxml"));
+            FXMLLoader loader;
+            if ("admin".equals(role)) {
+                loader = new FXMLLoader(getClass().getResource("/views/UserList.fxml"));
+            } else {
+                loader = new FXMLLoader(getClass().getResource("/views/OffenseList.fxml"));
+            }
             Parent root = loader.load();
-            Scene scene = new Scene(root);
-            dashboardStage.setScene(scene);
 
-            dashboardStage.initStyle(StageStyle.UNDECORATED);
 
-            dashboardStage.show();
+            // Get the stage and set the scene
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
         } catch (IOException e) {
             System.err.println("Error opening dashboard window: " + e.getMessage());
             e.printStackTrace();
@@ -123,7 +110,6 @@ public class MainController {
         passwordField.setVisible(false);
         toggleButton.setVisible(false);
     }
-
 
     public void signButtonOnAction(ActionEvent event) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/views/CreateAcc.fxml"));
