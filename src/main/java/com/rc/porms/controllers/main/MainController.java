@@ -42,6 +42,8 @@ public class MainController {
                 alert.setHeaderText(null);
                 alert.setContentText("Username and password are required.");
                 alert.showAndWait();
+                System.out.println(password);
+                System.out.println(currentUser.getPassword());
             } else if(currentUser != null && BCrypt.checkpw(password, currentUser.getPassword())) {
                 showAlert("Login Successful", "Welcome " + username + "!", Alert.AlertType.INFORMATION);
             }

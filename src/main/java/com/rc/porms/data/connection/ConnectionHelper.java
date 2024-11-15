@@ -16,11 +16,11 @@ public class ConnectionHelper {
     /**
      * The username used to connect to the database.
      */
-    public static String username = "system";
+    public static String username = "prefect";
     /**
      * The password used to connect to the database.
      */
-    public static String password = "Changeme0";
+    public static String password = "Changeme2024";
 
     private static Logger LOGGER = LoggerFactory.getLogger(ConnectionHelper.class);
 
