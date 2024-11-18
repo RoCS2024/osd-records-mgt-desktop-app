@@ -49,8 +49,6 @@ public class UserDaoImpl implements UserDao {
                 user.setOtp(rs.getString("OTP"));
                 user.setPassword(rs.getString("PASSWORD"));
                 user.setRole(rs.getString("ROLE"));
-                user.setUserId(rs.getString("USER_ID"));
-
             }
         } catch (Exception e) {
             LOGGER.error("Error retrieving user with User name " + username + ": " + e.getMessage());

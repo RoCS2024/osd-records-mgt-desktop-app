@@ -5,13 +5,22 @@ import com.rc.porms.data.user.dao.UserDao;
 import com.rc.porms.data.user.dao.impl.UserDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.io.IOException;
+
 public class MainController {
+
+    private Stage stage;
+    private Scene scene;
 
     @FXML
     private TextField usernameField;
@@ -25,6 +34,7 @@ public class MainController {
     @FXML
     private Button logButton;
 
+    private User user;
 
     UserDao userFacade = new UserDaoImpl();
 
@@ -36,6 +46,7 @@ public class MainController {
 
         try {
             User currentUser = userFacade.getUserByUsername(username);
+
             if (username.isEmpty() || password.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
@@ -43,7 +54,15 @@ public class MainController {
                 alert.setContentText("Username and password are required.");
                 alert.showAndWait();
             } else if(currentUser != null && BCrypt.checkpw(password, currentUser.getPassword())) {
-                showAlert("Login Successful", "Welcome " + username + "!", Alert.AlertType.INFORMATION);
+                if(checkRoleAdmin(currentUser).equals("admin")){
+                    showAlert("Login Successful", "Welcome " + username + "!", Alert.AlertType.INFORMATION);
+                    openAdminDashboardWindow(event);
+                } else if((checkRoleAdmin(currentUser).equals("prefect"))){
+                    showAlert("Login Successful", "Welcome " + username + "!", Alert.AlertType.INFORMATION);
+                    openPrefectDashboardWindow(event);
+                } else {
+                    showAlert("Login Failed", "Your role does not have access to this system!", Alert.AlertType.ERROR);
+                }
             }
             else{
                 showAlert("Login Failed", "Please double-check your username and password.", Alert.AlertType.ERROR);
@@ -53,6 +72,19 @@ public class MainController {
             ex.printStackTrace();
         }
     }
+    public String checkRoleAdmin(User currentUser){
+        try{
+            if(currentUser.getRole().equals("ROLE_ADMIN")){
+                return "admin";
+            } else if(currentUser.getRole().equals("ROLE_PREFECT")) {
+                return "prefect";
+            }
+        } catch (Exception e) {
+            showAlert("Error", "An error occurred during validating role: " + e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+        return "user";
+    }
 
     private void showAlert(String title, String content, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
@@ -60,6 +92,48 @@ public class MainController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    private void openAdminDashboardWindow(ActionEvent event) {
+        try {
+            Stage previousStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            previousStage.close();
+
+            Stage dashboardStage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/UserList.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            dashboardStage.setScene(scene);
+
+            dashboardStage.initStyle(StageStyle.UNDECORATED);
+
+            dashboardStage.show();
+        } catch (IOException e) {
+            System.err.println("Error opening dashboard window: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void openPrefectDashboardWindow(ActionEvent event) {
+        try {
+            Stage previousStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            previousStage.close();
+
+            Stage dashboardStage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/OffenseList.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            dashboardStage.setScene(scene);
+
+            dashboardStage.initStyle(StageStyle.UNDECORATED);
+
+            dashboardStage.show();
+        } catch (IOException e) {
+            System.err.println("Error opening dashboard window: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -92,12 +166,26 @@ public class MainController {
         toggleButton.setVisible(false);
     }
 
+
     @FXML
     protected void quitApp(MouseEvent event) {
         try {
             Stage previousStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             previousStage.close();
         } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void handleForgotPsw(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ForgotPsw.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
