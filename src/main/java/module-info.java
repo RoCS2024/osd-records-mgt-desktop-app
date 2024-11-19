@@ -12,10 +12,14 @@ module osd.records.mgt.desktop.app {
     opens com.rc.porms.controllers.main to javafx.fxml;
     opens com.rc.porms.controllers to javafx.fxml;
     opens com.rc.porms.appl.model.user to javafx.fxml;
+    opens com.rc.porms.appl.model.offense to javafx.fxml;
+
 
     exports com.rc.porms.controllers;
     exports com.rc.porms;
     exports com.rc.porms.controllers.main;
     exports com.rc.porms.appl.model.user;
+    exports com.rc.porms.appl.model.offense;
+
 
 }

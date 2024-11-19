@@ -6,6 +6,8 @@ import com.rc.porms.data.user.dao.UserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 /**
  * An implementation class of the User Facade.
  */
@@ -38,6 +40,5 @@ public class UserFacadeImpl implements UserFacade {
     public User getUserByUsername(String username) {
         return userDao.getUserByUsername(username);
     }
-
 
 }

@@ -3,6 +3,8 @@ package com.rc.porms.data.user.dao;
 
 import com.rc.porms.appl.model.user.User;
 
+import java.util.List;
+
 
 public interface UserDao {
 
@@ -13,6 +15,7 @@ public interface UserDao {
      * @return the User associated with the given username
      */
     User getUserByUsername(String userName);
+
 
 }
 
