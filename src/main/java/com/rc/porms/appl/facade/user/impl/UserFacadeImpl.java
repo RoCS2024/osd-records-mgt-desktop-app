@@ -6,8 +6,6 @@ import com.rc.porms.data.user.dao.UserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-
 /**
  * An implementation class of the User Facade.
  */
@@ -19,7 +17,6 @@ public class UserFacadeImpl implements UserFacade {
         public static final Logger LOGGER = LoggerFactory.getLogger(UserFacadeImpl.class);
 
         private UserDao userDao;
-
 
         /**
          * Constructs a new UserFacadeImpl with the provided UserDao.

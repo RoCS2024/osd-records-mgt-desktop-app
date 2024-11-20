@@ -1,8 +1,6 @@
 package com.rc.porms.appl.facade.prefect.offense;
 
-
 import com.rc.porms.appl.model.offense.Offense;
-
 import java.util.List;
 
 /**

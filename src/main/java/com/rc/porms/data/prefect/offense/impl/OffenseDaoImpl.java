@@ -1,12 +1,10 @@
 package com.rc.porms.data.prefect.offense.impl;
 
-
 import com.rc.porms.appl.model.offense.Offense;
 import com.rc.porms.data.connection.ConnectionHelper;
 import com.rc.porms.data.prefect.offense.OffenseDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.rc.porms.data.utils.prefect.QueryConstants.*;
-
 
 /**
  * This is an implementation class of the OffenseDao

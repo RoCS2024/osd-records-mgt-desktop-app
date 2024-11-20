@@ -1,8 +1,6 @@
 package com.rc.porms.data.prefect.offense;
 
-
 import com.rc.porms.appl.model.offense.Offense;
-
 import java.util.List;
 
 /**

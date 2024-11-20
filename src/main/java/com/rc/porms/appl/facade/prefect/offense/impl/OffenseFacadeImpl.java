@@ -1,11 +1,8 @@
 package com.rc.porms.appl.facade.prefect.offense.impl;
 
-
 import com.rc.porms.appl.facade.prefect.offense.OffenseFacade;
 import com.rc.porms.appl.model.offense.Offense;
-import com.rc.porms.appl.model.user.User;
 import com.rc.porms.data.prefect.offense.OffenseDao;
-
 import java.util.List;
 
 /**
@@ -111,8 +108,5 @@ public class OffenseFacadeImpl implements OffenseFacade {
             throw new RuntimeException("Failed to retrieve all Offense by tpe: " + e.getMessage(), e);
         }
     }
-
-
-
 
 }

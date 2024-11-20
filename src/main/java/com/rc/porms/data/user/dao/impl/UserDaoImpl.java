@@ -7,8 +7,6 @@ import com.rc.porms.data.utils.user.QueryConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Implementation of the UserDao interface to perform CRUD operations for User entities.
@@ -60,6 +58,5 @@ public class UserDaoImpl implements UserDao {
         LOGGER.debug("Username not found.");
         return user;
     }
-
 
 }

@@ -5,11 +5,7 @@
 package com.rc.porms.appl.facade.user;
 import com.rc.porms.appl.model.user.User;
 
-import java.util.List;
-
-
 public interface UserFacade {
-
 
     /**
      * Retrieves a user based on their username.
