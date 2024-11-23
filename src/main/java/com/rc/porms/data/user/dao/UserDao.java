@@ -1,8 +1,6 @@
 package com.rc.porms.data.user.dao;
 
-
 import com.rc.porms.appl.model.user.User;
-
 
 public interface UserDao {
 

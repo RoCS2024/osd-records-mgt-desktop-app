@@ -18,7 +18,6 @@ public class UserFacadeImpl implements UserFacade {
 
         private UserDao userDao;
 
-
         /**
          * Constructs a new UserFacadeImpl with the provided UserDao.
          *
@@ -38,6 +37,5 @@ public class UserFacadeImpl implements UserFacade {
     public User getUserByUsername(String username) {
         return userDao.getUserByUsername(username);
     }
-
 
 }

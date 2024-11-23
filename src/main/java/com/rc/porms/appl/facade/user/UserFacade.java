@@ -5,9 +5,7 @@
 package com.rc.porms.appl.facade.user;
 import com.rc.porms.appl.model.user.User;
 
-
 public interface UserFacade {
-
 
     /**
      * Retrieves a user based on their username.
@@ -16,4 +14,5 @@ public interface UserFacade {
      * @return The user object corresponding to the provided username, or null if not found.
      */
     User getUserByUsername(String username);
+
 }
