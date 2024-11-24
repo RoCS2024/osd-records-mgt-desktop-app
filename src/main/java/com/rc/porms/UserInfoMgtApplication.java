@@ -9,9 +9,9 @@ public class UserInfoMgtApplication {
     private UserFacade userFacade;
 
     /**
-     * This creates a new com.student.information.management.StudentInfoMgtApplication
+     * This creates a new com.user.information.management.UserInfoMgtApplication
      *
-     * @return the studentFacade this helps for managing student data.
+     * @return the userFacade this helps for managing student data.
      */
     public UserInfoMgtApplication() {
         UserDao userDaoImpl = new UserDaoImpl();
