@@ -88,7 +88,83 @@ public class Violation {
 
 
     /**
+     * Retrieves the warningNum of the Violation.
+     * @return The warningNum of the Violation.
+     */
+    public int getWarningNum() {
+        return warningNum;
+    }
+
+    /**
      * Sets the warningNum of the Violation.
      * @param warningNum The warningNum to set.
      */
+    public void setWarningNum(int warningNum) {
+        this.warningNum = warningNum;
+    }
+
+    /**
+     * Retrieves the commServHours of the Violation.
+     * @return The commServHours of the Violation.
+     */
+    public int getCommServHours() {
+        return commServHours;
+    }
+
+    /**
+     * Sets the commServHours of the Violation.
+     * @param commServHours The commServHours to set.
+     */
+    public void setCommServHours(int commServHours) {
+        this.commServHours = commServHours;
+    }
+
+    /**
+     * Retrieves the disciplinaryAction of the Violation.
+     * @return The disciplinaryAction of the Violation.
+     */
+    public String getDisciplinaryAction() {
+        return disciplinaryAction;
+    }
+
+    /**
+     * Sets the disciplinaryAction of the Violation.
+     * @param disciplinaryAction The disciplinaryAction to set.
+     */
+    public void setDisciplinaryAction(String disciplinaryAction) {
+        this.disciplinaryAction = disciplinaryAction;
+    }
+
+    /**
+     * Retrieves the timestamp indicating the date and time of the Violation.
+     * @return The timestamp indicating the date and time of the Violation.
+     */
+    public Timestamp getDateOfNotice() {
+        return dateOfNotice;
+    }
+
+    /**
+     * Sets the timestamp indicating the date and time of the Violation.
+     * @param dateOfNotice The timestamp to set.
+     */
+    public void setDateOfNotice(Timestamp dateOfNotice) {
+        this.dateOfNotice = dateOfNotice;
+    }
+
+    /**
+     * Retrieves the approvedBy of the Violation.
+     * @return The approvedBy of the Violation.
+     */
+    public Employee getApprovedBy() {
+        return approvedBy;
+    }
+
+    /**
+     * Sets the approvedBy indicating the personnel who approve the Violation.
+     * @param approvedBy The approvedBy to set.
+     */
+    public void setApprovedBy(Employee approvedBy) {
+        this.approvedBy = approvedBy;
+    }
+
 }
