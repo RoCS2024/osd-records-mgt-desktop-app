@@ -2,6 +2,7 @@ package com.rc.porms.appl.model.violation;
 
 
 import com.rc.porms.appl.model.offense.Offense;
+
 import java.sql.Timestamp;
 
 /**
@@ -9,16 +10,49 @@ import java.sql.Timestamp;
  */
 public class Violation {
     private int id;
+    private Student student;
     private Offense offense;
     private int warningNum;
     private int commServHours;
     private String disciplinaryAction;
     private Timestamp dateOfNotice;
+    private Employee approvedBy;
     private String studentName;
     private int offenseId;
     private int approvedById;
     private int studentId;
 
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
+    public int getOffenseId() {
+        return offenseId;
+    }
+
+    public void setOffenseId(int offenseId) {
+        this.offenseId = offenseId;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public int getApprovedById() {
+        return approvedById;
+    }
+
+    public void setApprovedById(int approvedById) {
+        this.approvedById = approvedById;
+    }
 
 
 
@@ -26,20 +60,24 @@ public class Violation {
      * Constructs a new Violation object.
      *
      * @param id        The unique identifier of the violation record.
+     * @param student   The student who committed the violation.
      * @param offense   The offense associated with the violation.
      * @param warningNum    The number of occurrence the offense was violated.
      * @param commServHours   The community service hours of the violated offense.
      * @param disciplinaryAction    The disciplinary action of the violated offense.
      * @param dateOfNotice   The timestamp indicating the date and time of the violation.
+     * @param approvedBy   The personnel approving the notice of violation.
      */
 
-    public Violation(int id, Offense offense, int commServHours, int warningNum, String disciplinaryAction, Timestamp dateOfNotice,  String studentName, int offenseId, int approvedById, int studentId) {
+    public Violation(int id, Student student, Offense offense, int commServHours, int warningNum, String disciplinaryAction, Timestamp dateOfNotice, Employee approvedBy, String studentName, int offenseId, int approvedById, int studentId) {
         this.id = id;
+        this.student = student;
         this.offense = offense;
         this.commServHours = commServHours;
         this.warningNum = warningNum;
         this.disciplinaryAction = disciplinaryAction;
         this.dateOfNotice = dateOfNotice;
+        this.approvedBy = approvedBy;
         this.studentName = studentName;
         this.offenseId = offenseId;
         this.approvedById = approvedById;
@@ -68,7 +106,21 @@ public class Violation {
         this.id = id;
     }
 
+    /**
+     * Retrieves the student object of the Student associated with the Violation.
+     * @return The student object of the Student.
+     */
+    public Student getStudent() {
+        return student;
+    }
 
+    /**
+     * Sets the student indicating the student of the Violation.
+     * @param student The student to set.
+     */
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 
     /**
      * Retrieves the offense object of the Offense associated with the Violation.
@@ -85,7 +137,6 @@ public class Violation {
     public void setOffense(Offense offense) {
         this.offense = offense;
     }
-
 
     /**
      * Retrieves the warningNum of the Violation.
@@ -166,5 +217,4 @@ public class Violation {
     public void setApprovedBy(Employee approvedBy) {
         this.approvedBy = approvedBy;
     }
-
 }

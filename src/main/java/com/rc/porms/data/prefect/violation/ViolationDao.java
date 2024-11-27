@@ -42,6 +42,14 @@ public interface ViolationDao {
      */
     boolean addViolation(Violation violation);
 
+    /**
+     * Retrieves a list of violations associated with a specific student based on their name.
+     *
+     * @param lastName  the last name of the student to search for
+     * @param firstName the first name of the student to search for
+     * @return a List of Violation objects matching the specified student name,
+     *         or an empty List if no violations are found
+     */
     List<Violation> findByStudentName(String lastName, String firstName);
 
 }
