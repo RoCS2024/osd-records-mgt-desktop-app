@@ -22,39 +22,6 @@ public class Violation {
     private int approvedById;
     private int studentId;
 
-    public int getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
-    }
-
-    public int getOffenseId() {
-        return offenseId;
-    }
-
-    public void setOffenseId(int offenseId) {
-        this.offenseId = offenseId;
-    }
-
-    public String getStudentName() {
-        return studentName;
-    }
-
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
-    }
-
-    public int getApprovedById() {
-        return approvedById;
-    }
-
-    public void setApprovedById(int approvedById) {
-        this.approvedById = approvedById;
-    }
-
-
 
     /**
      * Constructs a new Violation object.
@@ -217,4 +184,77 @@ public class Violation {
     public void setApprovedBy(Employee approvedBy) {
         this.approvedBy = approvedBy;
     }
+
+    /**
+     * Retrieves the ID of the student associated with the violation.
+     *
+     * @return The unique identifier of the student.
+     */
+    public int getStudentId() {
+        return studentId;
+    }
+
+    /**
+     * Sets the ID of the student associated with the violation.
+     *
+     * @param studentId The unique identifier of the student.
+     */
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
+    /**
+     * Retrieves the ID of the offense committed by the student.
+     *
+     * @return The unique identifier of the offense.
+     */
+    public int getOffenseId() {
+        return offenseId;
+    }
+
+    /**
+     * Sets the ID of the offense committed by the student.
+     *
+     * @param offenseId The unique identifier of the offense.
+     */
+    public void setOffenseId(int offenseId) {
+        this.offenseId = offenseId;
+    }
+
+    /**
+     * Retrieves the name of the student associated with the violation.
+     *
+     * @return The name of the student.
+     */
+    public String getStudentName() {
+        return studentName;
+    }
+
+    /**
+     * Sets the name of the student associated with the violation.
+     *
+     * @param studentName The name of the student.
+     */
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    /**
+     * Retrieves the ID of the personnel who approved the violation.
+     *
+     * @return The unique identifier of the approver.
+     */
+    public int getApprovedById() {
+        return approvedById;
+    }
+
+    /**
+     * Sets the ID of the personnel who approved the violation.
+     *
+     * @param approvedById The unique identifier of the approver.
+     */
+    public void setApprovedById(int approvedById) {
+        this.approvedById = approvedById;
+    }
+
 }
