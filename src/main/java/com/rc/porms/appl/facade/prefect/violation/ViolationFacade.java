@@ -1,6 +1,7 @@
 package com.rc.porms.appl.facade.prefect.violation;
 
 
+import com.rc.porms.appl.model.student.Student;
 import com.rc.porms.appl.model.violation.Violation;
 import java.util.List;
 
@@ -32,7 +33,6 @@ public interface ViolationFacade {
      * @return the Violation.
      * */
     List<Violation> getAllViolationByStudent(Student studentId);
-
     /**
      * Updates a Student in the database.
      *

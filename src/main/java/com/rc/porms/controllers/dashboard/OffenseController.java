@@ -172,6 +172,19 @@ public class OffenseController implements Initializable {
         }
     }
 
+    //violation list
+    @FXML
+    protected void handleIconViolationList(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ViolationList.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     //show details in edit button
     private void showEditOffense(Offense offense, ActionEvent event) {
         try {
