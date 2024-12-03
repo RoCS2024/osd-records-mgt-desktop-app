@@ -1,4 +1,4 @@
-package com.rc.porms.data.prefect.offense.impl;
+package com.rc.porms.data.prefect.offense.dao.impl;
 
 import com.rc.porms.appl.model.offense.Offense;
 import com.rc.porms.data.connection.ConnectionHelper;

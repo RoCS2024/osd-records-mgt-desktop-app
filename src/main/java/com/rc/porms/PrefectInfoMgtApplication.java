@@ -3,11 +3,17 @@ package com.rc.porms;
 
 import com.rc.porms.appl.facade.prefect.offense.OffenseFacade;
 import com.rc.porms.appl.facade.prefect.offense.impl.OffenseFacadeImpl;
+import com.rc.porms.appl.facade.prefect.violation.ViolationFacade;
+import com.rc.porms.appl.facade.prefect.violation.impl.ViolationFacadeImpl;
 import com.rc.porms.data.prefect.offense.OffenseDao;
-import com.rc.porms.data.prefect.offense.impl.OffenseDaoImpl;
+import com.rc.porms.data.prefect.offense.dao.impl.OffenseDaoImpl;
+import com.rc.porms.data.prefect.violation.ViolationDao;
+import com.rc.porms.data.prefect.violation.dao.impl.ViolationDaoImpl;
 
 public class PrefectInfoMgtApplication {
     private OffenseFacade offenseFacade;
+
+    private ViolationFacade violationFacade;
 
     /**
      * This creates a new com.prefect.information.management.PrefectInfoMgtApplication
@@ -20,9 +26,16 @@ public class PrefectInfoMgtApplication {
         OffenseDao offenseDaoImpl = new OffenseDaoImpl();
         this.offenseFacade = new OffenseFacadeImpl(offenseDaoImpl);
 
+        ViolationDao violationDaoImpl = new ViolationDaoImpl();
+        this.violationFacade = new ViolationFacadeImpl(violationDaoImpl);
+
     }
     public OffenseFacade getOffenseFacade() {
         return offenseFacade;
+    }
+
+    public ViolationFacade getViolationFacade() {
+        return violationFacade;
     }
 
 }

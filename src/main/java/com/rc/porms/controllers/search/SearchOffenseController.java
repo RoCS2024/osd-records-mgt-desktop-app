@@ -3,7 +3,7 @@ package com.rc.porms.controllers.search;
 import com.rc.porms.appl.model.offense.Offense;
 import com.rc.porms.controllers.modal.EditOffenseController;
 import com.rc.porms.data.prefect.offense.OffenseDao;
-import com.rc.porms.data.prefect.offense.impl.OffenseDaoImpl;
+import com.rc.porms.data.prefect.offense.dao.impl.OffenseDaoImpl;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
