@@ -1,7 +1,9 @@
 package com.rc.porms.appl.model.violation;
 
 
+import com.rc.porms.appl.model.employee.Employee;
 import com.rc.porms.appl.model.offense.Offense;
+import com.rc.porms.appl.model.student.Student;
 
 import java.sql.Timestamp;
 

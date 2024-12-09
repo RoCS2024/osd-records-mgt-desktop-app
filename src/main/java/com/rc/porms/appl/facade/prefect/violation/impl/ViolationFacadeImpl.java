@@ -2,6 +2,7 @@ package com.rc.porms.appl.facade.prefect.violation.impl;
 
 
 import com.rc.porms.appl.facade.prefect.violation.ViolationFacade;
+import com.rc.porms.appl.model.student.Student;
 import com.rc.porms.appl.model.violation.Violation;
 import com.rc.porms.data.prefect.violation.ViolationDao;
 

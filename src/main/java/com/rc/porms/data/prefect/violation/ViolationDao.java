@@ -1,6 +1,7 @@
 package com.rc.porms.data.prefect.violation;
 
 
+import com.rc.porms.appl.model.student.Student;
 import com.rc.porms.appl.model.violation.Violation;
 import java.util.List;
 
@@ -60,4 +61,3 @@ public interface ViolationDao {
 
 }
 
-}

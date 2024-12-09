@@ -1,9 +1,15 @@
 package com.rc.porms.data.prefect.violation.dao.impl;
 
 
+import com.rc.porms.EmployeeInfoMgtApplication;
+import com.rc.porms.StudentInfoMgtApplication;
+import com.rc.porms.appl.facade.employee.EmployeeFacade;
 import com.rc.porms.appl.facade.prefect.offense.OffenseFacade;
 import com.rc.porms.appl.facade.prefect.offense.impl.OffenseFacadeImpl;
+import com.rc.porms.appl.facade.student.StudentFacade;
+import com.rc.porms.appl.model.employee.Employee;
 import com.rc.porms.appl.model.offense.Offense;
+import com.rc.porms.appl.model.student.Student;
 import com.rc.porms.appl.model.violation.Violation;
 import com.rc.porms.data.connection.ConnectionHelper;
 import com.rc.porms.data.prefect.offense.OffenseDao;
