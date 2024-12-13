@@ -86,12 +86,23 @@ public class MainController {
         return "user";
     }
 
+    private static boolean isTestMode = false;
+
+    public static void setTestMode(boolean testMode) {
+        isTestMode = testMode;
+    }
+
     private void showAlert(String title, String content, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
-        alert.showAndWait();
+
+        if (isTestMode) {
+            alert.show();
+        } else {
+            alert.showAndWait();
+        }
     }
 
     private void openAdminDashboardWindow(ActionEvent event) {

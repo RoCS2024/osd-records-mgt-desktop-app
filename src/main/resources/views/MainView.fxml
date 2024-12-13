@@ -60,7 +60,7 @@
                                 <Cursor fx:constant="HAND" />
                             </cursor>
                             <graphic>
-                                <ImageView accessibleRole="TOGGLE_BUTTON" fitHeight="19.0" fitWidth="115.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                <ImageView accessibleRole="TOGGLE_BUTTON" fx:id="eyeBrow" fitHeight="19.0" fitWidth="115.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../assets/eyebrow.png" />
                                     </image>
