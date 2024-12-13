@@ -11,16 +11,21 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.mindrot.jbcrypt.BCrypt;
+
 
 import java.io.IOException;
 
 public class MainController {
 
-    private Stage stage;
-    private Scene scene;
+    public Text error;
+
+    public Text error1;
+
 
     @FXML
     private TextField usernameField;
@@ -34,8 +39,6 @@ public class MainController {
     @FXML
     private Button logButton;
 
-    private User user;
-
     UserDao userFacade = new UserDaoImpl();
 
     @FXML
@@ -47,26 +50,37 @@ public class MainController {
         try {
             User currentUser = userFacade.getUserByUsername(username);
 
-            if (username.isEmpty() || password.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Username and password are required.");
-                alert.showAndWait();
-            } else if(currentUser != null && BCrypt.checkpw(password, currentUser.getPassword())) {
+            if (username.isEmpty()) {
+                error1.setText("Username is required.");
+                error1.setFill(Color.RED);
+            } else if (username != null) {
+                error1.setText("");
+            } if (currentUser == null && !username.isEmpty()) {
+                error1.setText("Username does not exist");
+                error1.setFill(Color.RED);
+            }
+             if (password.isEmpty()){
+                error.setText("Password is required.");
+                error.setFill(Color.RED);
+                }else if (username != null ) {
+                 error1.setText("");
+                }
+
+             if(currentUser != null && BCrypt.checkpw(password, currentUser.getPassword())) {
                 if(checkRoleAdmin(currentUser).equals("admin")){
                     showAlert("Login Successful", "Welcome " + username + "!", Alert.AlertType.INFORMATION);
                     openAdminDashboardWindow(event);
                 } else if((checkRoleAdmin(currentUser).equals("prefect"))){
                     showAlert("Login Successful", "Welcome " + username + "!", Alert.AlertType.INFORMATION);
                     openPrefectDashboardWindow(event);
-                } else {
-                    showAlert("Login Failed", "Your role does not have access to this system!", Alert.AlertType.ERROR);
                 }
-            }
-            else{
-                showAlert("Login Failed", "Please double-check your username and password.", Alert.AlertType.ERROR);
-            }
+            }else if (!password.isEmpty()){
+                 error.setText("Incorrect Password");
+                 error.setFill(Color.RED);
+             }else if (!password.isEmpty()){
+                 error.setText("");
+             }
+
         } catch (Exception ex) {
             showAlert("Error", "An error occurred during login: " + ex.getMessage(), Alert.AlertType.ERROR);
             ex.printStackTrace();
@@ -177,16 +191,4 @@ public class MainController {
         }
     }
 
-    @FXML
-    protected void handleForgotPsw(MouseEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ForgotPsw.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

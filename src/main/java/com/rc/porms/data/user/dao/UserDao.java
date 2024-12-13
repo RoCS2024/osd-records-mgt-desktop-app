@@ -19,6 +19,7 @@ public interface UserDao {
     void setLocked(String username);
 
     void setUnLocked(String username);
+
 }
 
 
