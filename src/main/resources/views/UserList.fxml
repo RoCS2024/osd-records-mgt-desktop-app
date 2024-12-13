@@ -64,7 +64,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #00214A; -fx-background-radius: 0;" styleClass="sideBar" text="Sign Out" textFill="WHITE">
+                        <Button alignment="BASELINE_LEFT" onAction="#handleLogOut" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #00214A; -fx-background-radius: 0;" styleClass="sideBar" text="Sign Out" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
