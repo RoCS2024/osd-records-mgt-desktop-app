@@ -25,6 +25,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -46,12 +47,17 @@ public class TableViewController implements Initializable {
     @FXML
     private AnchorPane sidebarPane;
 
-    private boolean sidebarVisible = false;
+    @FXML
+    private TextField searchField;
 
     @FXML
     private TableView<User> table;
 
     private UserFacade userFacade;
+
+    private ObservableList<User> allUsers; // To store all users for filtering
+
+    private boolean sidebarVisible = false;
 
     public TableViewController() {
         UserDao userDao = new UserDaoImpl();
@@ -61,6 +67,7 @@ public class TableViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTable();
+        setupSearchFunctionality();
         refreshTable();
     }
 
@@ -130,29 +137,51 @@ public class TableViewController implements Initializable {
         table.getColumns().addAll(usernameColumn, lastLoginColumn, joinDateColumn, roleColumn, isLockedColumn);
     }
 
-    private Callback<TableColumn<User, Timestamp>, TableCell<User, Timestamp>> getDateCellFactory() {
-        return column -> new TableCell<>() {
-            private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-            @Override
-            protected void updateItem(Timestamp item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    LocalDate date = item.toLocalDateTime().toLocalDate();
-                    setText(formatter.format(date));
-                }
-            }
-        };
-    }
-
     private void refreshTable() {
         List<User> users = userFacade.getAllUsers();
-        ObservableList<User> data = FXCollections.observableArrayList(users);
-        table.setItems(data);
+        allUsers = FXCollections.observableArrayList(users);
+        table.setItems(allUsers);
     }
 
+    private void setupSearchFunctionality() {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterTable(newValue);
+        });
+    }
+
+    private void filterTable(String query) {
+        if (query == null || query.isEmpty()) {
+            table.setItems(allUsers);
+            return;
+        }
+
+        String lowerCaseQuery = query.toLowerCase();
+
+        ObservableList<User> filteredUsers = FXCollections.observableArrayList();
+        for (User user : allUsers) {
+            if (user.getUsername().toLowerCase().contains(lowerCaseQuery)) {
+                filteredUsers.add(user);
+            }
+        }
+
+        table.setItems(filteredUsers);
+    }
+     @FXML
+     private void handleLogOut(ActionEvent event) throws IOException {
+         Stage previousStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+         previousStage.close();
+
+         Stage dashboardStage = new Stage();
+         FXMLLoader loader = new FXMLLoader();
+         loader.setLocation(getClass().getResource("/views/MainView.fxml"));
+         Parent root = loader.load();
+         Scene scene = new Scene(root);
+         dashboardStage.setScene(scene);
+
+         dashboardStage.initStyle(StageStyle.UNDECORATED);
+
+         dashboardStage.show();
+     }
     @FXML
     private void toggleSidebarVisibility(ActionEvent event) {
         sidebarVisible = !sidebarVisible;
@@ -165,15 +194,18 @@ public class TableViewController implements Initializable {
         }
     }
 
-    @FXML
-    protected void handleIconOffense(MouseEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/OffenseList.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private Callback<TableColumn<User, Timestamp>, TableCell<User, Timestamp>> getDateCellFactory() {
+        return column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Timestamp item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    LocalDate date = item.toLocalDateTime().toLocalDate();
+                    setText(date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                }
+            }
+        };
     }
 }
