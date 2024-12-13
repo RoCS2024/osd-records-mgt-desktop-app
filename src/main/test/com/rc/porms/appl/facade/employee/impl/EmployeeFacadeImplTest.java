@@ -18,14 +18,14 @@ class EmployeeFacadeImplTest {
     @Test
     void testGetAllEmployees() {
         Employee employee1 = new Employee();
-        employee1.setEmployeeNo("EMP21-0143");
-        employee1.setLastName("Magnaye");
-        employee1.setFirstName("Justine");
+        employee1.setEmployeeNo("EMP16-0005");
+        employee1.setLastName("Roque");
+        employee1.setFirstName("Joshua");
 
         Employee employee2 = new Employee();
-        employee2.setEmployeeNo("EMP21-0144");
-        employee2.setLastName("Doe");
-        employee2.setFirstName("John");
+        employee2.setEmployeeNo("EMP16-0143");
+        employee2.setLastName("Claus");
+        employee2.setFirstName("Saint");
 
         List<Employee> employees = Arrays.asList(employee1, employee2);
         when(employeeDao.getAllEmployees()).thenReturn(employees);
@@ -39,11 +39,11 @@ class EmployeeFacadeImplTest {
 
     @Test
     void testGetEmployeeById() {
-        String employeeId = "EMP21-0143";
+        String employeeId = "EMP16-0005";
         Employee expectedEmployee = new Employee();
         expectedEmployee.setEmployeeNo(employeeId);
-        expectedEmployee.setLastName("Magnaye");
-        expectedEmployee.setFirstName("Justine");
+        expectedEmployee.setLastName("Roque");
+        expectedEmployee.setFirstName("Joshua");
         when(employeeDao.getEmployeeById(employeeId)).thenReturn(expectedEmployee);
 
         Employee result = employeeFacade.getEmployeeById(employeeId);
@@ -57,9 +57,9 @@ class EmployeeFacadeImplTest {
     void testGetById() {
         int employeeId = 1;
         Employee expectedEmployee = new Employee();
-        expectedEmployee.setEmployeeNo("EMP21-0143");
-        expectedEmployee.setLastName("Magnaye");
-        expectedEmployee.setFirstName("Justine");
+        expectedEmployee.setEmployeeNo("EMP16-0005");
+        expectedEmployee.setLastName("Roque");
+        expectedEmployee.setFirstName("Joshua");
         when(employeeDao.getById(employeeId)).thenReturn(expectedEmployee);
 
         Employee result = employeeFacade.getById(employeeId);
@@ -72,9 +72,9 @@ class EmployeeFacadeImplTest {
     @Test
     void testAddEmployee() {
         Employee newEmployee = new Employee();
-        newEmployee.setEmployeeNo("EMP21-0145");
-        newEmployee.setLastName("Smith");
-        newEmployee.setFirstName("Emily");
+        newEmployee.setEmployeeNo("EMP16-0144");
+        newEmployee.setLastName("Claus");
+        newEmployee.setFirstName("Rudolf");
 
         when(employeeDao.addEmployee(newEmployee)).thenReturn(true);
         when(employeeDao.getEmployeeById(newEmployee.getEmployeeNo())).thenReturn(null);
@@ -88,14 +88,14 @@ class EmployeeFacadeImplTest {
     @Test
     void testUpdateEmployee() {
         Employee existingEmployee = new Employee();
-        existingEmployee.setEmployeeNo("EMP21-0143");
-        existingEmployee.setLastName("Magnaye");
-        existingEmployee.setFirstName("Justine");
+        existingEmployee.setEmployeeNo("EMP16-0005");
+        existingEmployee.setLastName("Roque");
+        existingEmployee.setFirstName("Joshua");
 
         Employee updatedEmployee = new Employee();
-        updatedEmployee.setEmployeeNo("EMP21-0143");
-        updatedEmployee.setLastName("Magnaye");
-        updatedEmployee.setFirstName("Justine Updated");
+        updatedEmployee.setEmployeeNo("EMP16-0005");
+        updatedEmployee.setLastName("Roque");
+        updatedEmployee.setFirstName("Joshua Gerome");
 
         when(employeeDao.getEmployeeById(existingEmployee.getEmployeeNo())).thenReturn(existingEmployee);
         when(employeeDao.updateEmployee(updatedEmployee)).thenReturn(true);
