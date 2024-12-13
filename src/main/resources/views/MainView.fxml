@@ -43,11 +43,6 @@
                                 <Cursor fx:constant="TEXT" />
                             </cursor>
                         </PasswordField>
-                        <Hyperlink prefHeight="13.0" prefWidth="108.0" text="Forgot Password?" textFill="#007bdb" AnchorPane.bottomAnchor="79.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="127.0" AnchorPane.topAnchor="170.0">
-                            <font>
-                                <Font size="10.0" />
-                            </font>
-                        </Hyperlink>
                         <ToggleButton fx:id="toggleButton2" layoutX="205.0" layoutY="146.0" mnemonicParsing="false" onAction="#changeVisibility2" prefHeight="29.0" prefWidth="30.0" style="-fx-background-color: #f0f0f0;" AnchorPane.bottomAnchor="105.0" AnchorPane.leftAnchor="205.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="136.0">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
@@ -101,14 +96,6 @@
                                 <Font name="Arial Rounded MT Bold" size="15.0" />
                             </font>
                         </Text>
-                        <Button fx:id="signButton" defaultButton="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" style="-fx-background-color: none; -fx-background-radius: 15px; -fx-font-weight: 800;" stylesheets="@../styles/main.css" text="SIGN UP" textFill="#007bdb" underline="true" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                            <cursor>
-                                <Cursor fx:constant="HAND" />
-                            </cursor>
-                        </Button>
                     </children>
                 </GridPane>
             </children>

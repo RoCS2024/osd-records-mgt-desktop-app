@@ -2,6 +2,8 @@ package com.rc.porms.data.user.dao;
 
 import com.rc.porms.appl.model.user.User;
 
+import java.util.List;
+
 public interface UserDao {
 
     /**
@@ -12,6 +14,11 @@ public interface UserDao {
      */
     User getUserByUsername(String userName);
 
+    List<User> getAllUsers();
+
+    void setLocked(String username);
+
+    void setUnLocked(String username);
 }
 
 

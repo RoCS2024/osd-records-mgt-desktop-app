@@ -7,6 +7,8 @@ import com.rc.porms.data.utils.user.QueryConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of the UserDao interface to perform CRUD operations for User entities.
@@ -57,6 +59,83 @@ public class UserDaoImpl implements UserDao {
 
         LOGGER.debug("Username not found.");
         return user;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        List<User> login = new ArrayList<>();
+
+        try (Connection con = ConnectionHelper.getConnection()) {
+            PreparedStatement stmt = con.prepareStatement(QueryConstant.GET_ALL_LOGIN_STATEMENT);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                login.add(mapResultSetToUser(rs));
+            }
+            return login;
+
+        } catch (Exception e) {
+            LOGGER.error("An SQL Exception occurred." + e.getMessage());
+        }
+        LOGGER.debug("Student database is empty.");
+        return login;
+    }
+
+    private User mapResultSetToUser(ResultSet rs) throws SQLException {
+        User user = new User();
+
+        user.setIsActive(rs.getInt("IS_ACTIVE"));
+        user.setIsLocked(rs.getInt("IS_LOCKED"));
+        user.setId(rs.getLong("ID"));
+        user.setJoinDate(rs.getTimestamp("JOIN_DATE"));
+        user.setLastLoginDate(rs.getTimestamp("LAST_LOGIN_DATE"));
+        user.setAuthorities(rs.getString("AUTHORITIES"));
+        user.setOtp(rs.getString("OTP"));
+        user.setPassword(rs.getString("PASSWORD"));
+        user.setRole(rs.getString("ROLE"));
+        user.setUsername(rs.getString("USERNAME"));
+
+        return user;
+    }
+
+    @Override
+    public void setLocked(String username) {
+        String sql = "UPDATE login SET IS_LOCKED = ? WHERE USERNAME = ?";
+
+        try (Connection con = ConnectionHelper.getConnection()) {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, 1); // Assuming `newLockStatus` is the updated lock status (0 or 1)
+            stmt.setString(2, username); // Use the appropriate variable or parameter for the username
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                LOGGER.debug("User locked status updated successfully.");
+            } else {
+                LOGGER.debug("No user found with the specified username.");
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error updating lock status for user: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void setUnLocked(String username) {
+        String sql = "UPDATE login SET IS_LOCKED = ? WHERE USERNAME = ?";
+
+        try (Connection con = ConnectionHelper.getConnection()) {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, 0); // Assuming `newLockStatus` is the updated lock status (0 or 1)
+            stmt.setString(2, username); // Use the appropriate variable or parameter for the username
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                LOGGER.debug("User locked status updated successfully.");
+            } else {
+                LOGGER.debug("No user found with the specified username.");
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error updating lock status for user: " + e.getMessage());
+        }
     }
 
 }

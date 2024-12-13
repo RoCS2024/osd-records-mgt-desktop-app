@@ -1,6 +1,12 @@
 package com.rc.porms.controllers.dashboard;
 
+import com.rc.porms.appl.facade.user.UserFacade;
+import com.rc.porms.appl.facade.user.impl.UserFacadeImpl;
 import com.rc.porms.appl.model.user.User;
+import com.rc.porms.data.user.dao.UserDao;
+import com.rc.porms.data.user.dao.impl.UserDaoImpl;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,11 +32,11 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class TableViewController implements Initializable {
 
-    //for sidebar uses
     @FXML
     private Button burgerButton;
 
@@ -42,92 +48,86 @@ public class TableViewController implements Initializable {
 
     private boolean sidebarVisible = false;
 
-    //for table id
     @FXML
-    TableView table;
+    private TableView<User> table;
+
+    private UserFacade userFacade;
+
+    public TableViewController() {
+        UserDao userDao = new UserDaoImpl();
+        userFacade = new UserFacadeImpl(userDao);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        table.getItems().clear();
-        //List<User> users = userFacade.getAllUsers();
-       // ObservableList<User> data = FXCollections.observableArrayList(users);
-       // table.setItems(data);
+        setupTable();
+        refreshTable();
+    }
 
+    private void setupTable() {
         TableColumn<User, String> usernameColumn = new TableColumn<>("USERNAME");
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-        usernameColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.4)); // 40% width
-        usernameColumn.getStyleClass().addAll("username-column");
+        usernameColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.2));
+        usernameColumn.setStyle("-fx-alignment: CENTER;");
 
-        TableColumn<User, Integer> lastLoginColumn = new TableColumn<>("LAST LOGIN");
+        TableColumn<User, Timestamp> lastLoginColumn = new TableColumn<>("LAST LOGIN");
         lastLoginColumn.setCellValueFactory(new PropertyValueFactory<>("lastLoginDate"));
-        lastLoginColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.4)); // 40% width
-        lastLoginColumn.getStyleClass().addAll("last-login-column");
+        lastLoginColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.2));
+        lastLoginColumn.setStyle("-fx-alignment: CENTER;");
 
         TableColumn<User, Timestamp> joinDateColumn = new TableColumn<>("JOIN DATE");
         joinDateColumn.setCellValueFactory(new PropertyValueFactory<>("joinDate"));
-        joinDateColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.4)); // 40% width
-        joinDateColumn.getStyleClass().addAll("join-date-column");
+        joinDateColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.2));
         joinDateColumn.setCellFactory(getDateCellFactory());
+        joinDateColumn.setStyle("-fx-alignment: CENTER;");
 
-        TableColumn<User, Timestamp> roleColumn = new TableColumn<>("ROLE");
+        TableColumn<User, String> roleColumn = new TableColumn<>("ROLE");
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
-        roleColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.4)); // 40% width
-        roleColumn.getStyleClass().addAll("role-column");
-
-        TableColumn<User, String> authoritiesColumn = new TableColumn<>("AUTHORITIES");
-        authoritiesColumn.setCellValueFactory(new PropertyValueFactory<>("authorities"));
-        authoritiesColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.4)); // 40% width
-        authoritiesColumn.getStyleClass().addAll("authorities-column");
-
-        TableColumn<User, String> otpColumn = new TableColumn<>("OTP");
-        otpColumn.setCellValueFactory(new PropertyValueFactory<>("otp"));
-        otpColumn.getStyleClass().addAll("otp-column");
-        otpColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.4)); // 40% width
-
-        TableColumn<User, Integer> isActiveColumn = new TableColumn<>("IS ACTIVE");
-        isActiveColumn.setCellValueFactory(new PropertyValueFactory<>("isActive"));
-        isActiveColumn.getStyleClass().addAll("is-active-column");
-        isActiveColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.4)); // 40% width
+        roleColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.2));
+        roleColumn.setStyle("-fx-alignment: CENTER;");
 
         TableColumn<User, Integer> isLockedColumn = new TableColumn<>("IS LOCKED");
         isLockedColumn.setCellValueFactory(new PropertyValueFactory<>("isLocked"));
-        isLockedColumn.getStyleClass().addAll("is-locked-column");
-        isLockedColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.4)); // 40% width
+        isLockedColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.2));
+        isLockedColumn.setStyle("-fx-alignment: CENTER;");
+        isLockedColumn.setCellFactory(column -> new TableCell<>() {
+            private final Button lockButton = new Button();
 
-
-        TableColumn<User, String> actionColumn = new TableColumn<>("ACTION");
-        actionColumn.setCellValueFactory(new PropertyValueFactory<>(""));
-        actionColumn.getStyleClass().addAll("action-column");
-        actionColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.4)); // 40% width
-        actionColumn.setCellFactory(cell -> {
-            final Button editButton = new Button();
-            TableCell<User, String> cellInstance = new TableCell<>() {
-                @Override
-                public void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        editButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/assets/pencil.png"))));
-                        editButton.setOnAction(event -> {
-                            User user = getTableView().getItems().get(getIndex());
-                            //showEditUser(user, (ActionEvent) event);
-                        });
-                        HBox hbox = new HBox(editButton);
-                        hbox.setSpacing(10);
-                        hbox.setAlignment(Pos.BASELINE_CENTER);
-                        setGraphic(hbox);
-                        setText(null);
-                    }
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                    return;
                 }
-            };
-            return cellInstance;
+
+                Image image = item == 1
+                        ? new Image(getClass().getResourceAsStream("/assets/lock.png"))
+                        : new Image(getClass().getResourceAsStream("/assets/unlock.png"));
+
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(16);
+                imageView.setFitHeight(16);
+                lockButton.setGraphic(imageView);
+
+                lockButton.setOnAction(event -> {
+                    User currentUser = getTableView().getItems().get(getIndex());
+                    String username = currentUser.getUsername();
+
+                    if (item == 1) {
+                        userFacade.setUnLocked(username);
+                    } else {
+                        userFacade.setLocked(username);
+                    }
+
+                    refreshTable();
+                });
+
+                setGraphic(lockButton);
+            }
         });
 
-        table.getColumns().addAll(usernameColumn, lastLoginColumn,
-                joinDateColumn, roleColumn, authoritiesColumn,otpColumn, isActiveColumn,
-                isLockedColumn, actionColumn);
+        table.getColumns().addAll(usernameColumn, lastLoginColumn, joinDateColumn, roleColumn, isLockedColumn);
     }
 
     private Callback<TableColumn<User, Timestamp>, TableCell<User, Timestamp>> getDateCellFactory() {
@@ -147,21 +147,12 @@ public class TableViewController implements Initializable {
         };
     }
 
-    //button actions
-    @FXML
-    protected void handleIconOffense(MouseEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/OffenseList.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void refreshTable() {
+        List<User> users = userFacade.getAllUsers();
+        ObservableList<User> data = FXCollections.observableArrayList(users);
+        table.setItems(data);
     }
 
-    //for sidebar actions
     @FXML
     private void toggleSidebarVisibility(ActionEvent event) {
         sidebarVisible = !sidebarVisible;
@@ -173,5 +164,16 @@ public class TableViewController implements Initializable {
             BorderPane.setMargin(sidebarPane, new Insets(0, -125.0, 0, 0));
         }
     }
-}
 
+    @FXML
+    protected void handleIconOffense(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/OffenseList.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
