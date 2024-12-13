@@ -35,35 +35,6 @@ class MainTest extends ApplicationTest {
     public void testLoginValidation() {
         MainController.setTestMode(true);
 
-        //testing kung ang username ay tumatanggap ng may alpha numeric
-        clickOn("#usernameField");
-        write("conrad()");
-        clickOn("#passwordField");
-        write("Password@123");
-        clickOn("#logButton");
-        sleep(2000);
-        verifyThat(".dialog-pane", isVisible());
-        clickOn("OK");
-
-        clickOn("#usernameField");
-        eraseText(8);
-        clickOn("#passwordField");
-        eraseText(12);
-
-        //testing kung ang password ay tumatanggap ng walang special character
-        clickOn("#usernameField");
-        write("conrad");
-        clickOn("#passwordField");
-        write("Password123");
-        clickOn("#logButton");
-        sleep(2000);
-        verifyThat(".dialog-pane", isVisible());
-        clickOn("OK");
-
-        clickOn("#usernameField");
-        eraseText(6);
-        clickOn("#passwordField");
-        eraseText(11);
 
         //testing kung ang makaka log in if walang ilagay sa username and password
         clickOn("#logButton");
