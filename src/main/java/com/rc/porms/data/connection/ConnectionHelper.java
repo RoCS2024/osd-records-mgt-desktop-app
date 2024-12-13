@@ -16,7 +16,7 @@ public class ConnectionHelper {
     /**
      * The username used to connect to the database.
      */
-    public static String username = "C##prefect";
+    public static String username = "prefect";
     /**
      * The password used to connect to the database.
      */
