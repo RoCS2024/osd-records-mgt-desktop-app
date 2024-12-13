@@ -23,6 +23,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -33,6 +35,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AddViolationController{
+    public Text error;
+    public Text error1;
+    public Text error2;
     @FXML
     private TextField studentIdField;
     @FXML
@@ -74,21 +79,31 @@ public class AddViolationController{
     @FXML
     protected void saveAddClicked(ActionEvent event) {
         if (studentIdField.getText().isEmpty() || employeeIdField.getText().isEmpty() || dateField.getValue() == null) {
-            showAlert("Please fill in all required fields.");
+            error.setText("Please fill in all required fields.");
+            error.setFill(Color.RED);
             return;
+        }else{
+            error.setText(" ");
         }
 
         if (!isNumeric(warningNumField.getText()) || !isNumeric(csHoursField.getText())) {
-            showAlert("Warning Number and Community Service Hours must be numeric.");
+            error1.setText("Warning Number and CS Hours must be numeric.");
+            error1.setFill(Color.RED);
             return;
+        }else{
+            error1.setText(" ");
         }
 
         LocalDate currentDate = LocalDate.now();
         LocalDate selectedDate = dateField.getValue();
         if (selectedDate != null && selectedDate.isAfter(currentDate)) {
-            showAlert("Invalid input: Violation date cannot be in the future.");
+            error2.setText("Invalid input: Violation date cannot be in the future.");
+            error2.setFill(Color.RED);
             return;
+        }else{
+            error2.setText(" ");
         }
+
         PrefectInfoMgtApplication app = new PrefectInfoMgtApplication();
         violationFacade = app.getViolationFacade();
 

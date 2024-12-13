@@ -14,6 +14,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -21,6 +23,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class EditOffenseController implements Initializable {
+    public Text error;
+    public Text error1;
     @FXML
     private TextField offenseField;
 
@@ -37,8 +41,11 @@ public class EditOffenseController implements Initializable {
         offenseFacade = app.getOffenseFacade();
 
         if (comboBox.getValue() == null || offenseField.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Missing Information", "Please fill in all required fields.");
+            error.setText( "Error Missing Information: Please fill in all required fields.");
+            error.setFill(Color.RED);
             return;
+        }else{
+            error.setText("");
         }
 
         Offense editOffense = new Offense();
@@ -53,7 +60,8 @@ public class EditOffenseController implements Initializable {
             offenseFacade.updateOffense(editOffense);
             showAlert(Alert.AlertType.INFORMATION, "Success", "Offense Updated", "Offense successfully updated.");
         } catch(Exception ex) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Update Failed", "Failed to update offense. Please try again later.");
+            error1.setText( "Error Update Failed: Failed to update offense. Please try again later.");
+            error1.setFill(Color.RED);
             ex.printStackTrace();
         }
         finally {
