@@ -2,11 +2,10 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -26,5 +25,4 @@ jobs:
 
     - name: What is the target folder?
       run: |
-        cd target
-        ls -a
+        ls -a target
