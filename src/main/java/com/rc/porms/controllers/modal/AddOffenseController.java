@@ -16,6 +16,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -23,6 +25,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AddOffenseController  implements Initializable {
+    public Text error;
+
+    public Text error1;
     @FXML
     private TextField offenseField;
 
@@ -42,19 +47,29 @@ public class AddOffenseController  implements Initializable {
         String valOffense = comboBox.getValue();
 
         if (offenseValue.isEmpty()) {
-            showAlert("Error", "Offense is empty. Please input Offense", Alert.AlertType.ERROR);
+            error.setText("Offense is empty. Please input Offense");
+            error.setFill(Color.RED);
             return;
+        }else  {
+            error.setText("");
+
         }
 
         if (valOffense == null || valOffense.equals("Select offense type")) {
-            showAlert("Error", "Select a offense", Alert.AlertType.ERROR);
+            error.setText("Error Select a offense");
+            error.setFill(Color.RED);
             return;
+        } else  {
+            error.setText("");
         }
 
         // Validate if the selected offense is either "major" or "minor"
         if (!valOffense.equalsIgnoreCase("major") && !valOffense.equalsIgnoreCase("minor")) {
-            showAlert("Error", "Please select either 'major' or 'minor' offense", Alert.AlertType.ERROR);
+            error1.setText("Error Please select either 'major' or 'minor' offense");
+            error1.setFill(Color.RED);
             return;
+        } else {
+            error1.setText("");
         }
 
         Offense addOffense = new Offense();
