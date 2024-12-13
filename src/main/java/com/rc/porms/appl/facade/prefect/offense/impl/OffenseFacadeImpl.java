@@ -105,7 +105,7 @@ public class OffenseFacadeImpl implements OffenseFacade {
         try {
             return offenseDAO.getAllOffenseByType(type);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to retrieve all Offense by tpe: " + e.getMessage(), e);
+            throw new RuntimeException("Failed to retrieve all Offense by type: " + e.getMessage(), e);
         }
     }
 
