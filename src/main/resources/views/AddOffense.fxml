@@ -86,7 +86,7 @@
                                         <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
-                                        <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#handleCancelAddOffenseClicked" prefHeight="30.0" prefWidth="130.0" style="-fx-background-radius: 20; -fx-background-color: #FF0000;" text="CANCEL" textFill="WHITE" GridPane.valignment="TOP">
+                                        <Button fx:id="cancelAddButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#handleCancelAddOffenseClicked" prefHeight="30.0" prefWidth="130.0" style="-fx-background-radius: 20; -fx-background-color: #FF0000;" text="CANCEL" textFill="WHITE" GridPane.valignment="TOP">
                                             <GridPane.margin>
                                                 <Insets />
                                             </GridPane.margin>
