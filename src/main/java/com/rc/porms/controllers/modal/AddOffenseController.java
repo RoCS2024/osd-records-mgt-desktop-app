@@ -24,7 +24,7 @@ import javafx.stage.StageStyle;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddOffenseController  implements Initializable {
+public class AddOffenseController implements Initializable {
     public Text error;
 
     public Text error1;
@@ -46,26 +46,45 @@ public class AddOffenseController  implements Initializable {
         String offenseValue = offenseField.getText();
         String valOffense = comboBox.getValue();
 
+        // Validate if the offense value is empty
         if (offenseValue.isEmpty()) {
             error.setText("Offense is empty. Please input Offense");
             error.setFill(Color.RED);
             return;
-        }else  {
+        } else {
             error.setText("");
-
         }
 
-        if (valOffense == null || valOffense.equals("Select offense type")) {
-            error.setText("Error Select a offense");
+// Validate the length of the offense value
+        if (offenseValue.length() > 32) {
+            error.setText("Character must be 32 characters only");
             error.setFill(Color.RED);
             return;
-        } else  {
+        } else {
             error.setText("");
         }
 
-        // Validate if the selected offense is either "major" or "minor"
+// Validate if the offense value is alphanumeric
+        if (!offenseValue.matches("[a-zA-Z0-9]+")) {
+            error.setText("Alphanumeric characters only");
+            error.setFill(Color.RED);
+            return;
+        } else {
+            error.setText("");
+        }
+
+// Validate if the offense type is selected
+        if (valOffense == null || valOffense.equals("Select offense type")) {
+            error.setText("Error: Select an offense");
+            error.setFill(Color.RED);
+            return;
+        } else {
+            error.setText("");
+        }
+
+// Validate if the selected offense is either "major" or "minor"
         if (!valOffense.equalsIgnoreCase("major") && !valOffense.equalsIgnoreCase("minor")) {
-            error1.setText("Error Please select either 'major' or 'minor' offense");
+            error1.setText("Error: Please select either 'major' or 'minor' offense");
             error1.setFill(Color.RED);
             return;
         } else {

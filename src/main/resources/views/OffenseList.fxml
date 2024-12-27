@@ -161,18 +161,6 @@
                                                 <Insets top="10.0" />
                                              </GridPane.margin>
                                           </TextField>
-                                          <ToggleButton fx:id="searchButton" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleSearchButton" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: white;" GridPane.halignment="RIGHT">
-                                             <GridPane.margin>
-                                                <Insets right="15.0" top="10.0" />
-                                             </GridPane.margin>
-                                             <graphic>
-                                                <ImageView fx:id="searchIcon" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../assets/search.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
-                                          </ToggleButton>
                                           <ComboBox fx:id="filterBox" prefHeight="34.0" prefWidth="220.0" promptText="Filter Type" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM" />
                                        </children>
                                     </GridPane>

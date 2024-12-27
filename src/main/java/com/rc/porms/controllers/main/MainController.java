@@ -3,6 +3,7 @@ package com.rc.porms.controllers.main;
 import com.rc.porms.appl.model.user.User;
 import com.rc.porms.data.user.dao.UserDao;
 import com.rc.porms.data.user.dao.impl.UserDaoImpl;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,6 +43,19 @@ public class MainController {
     UserDao userFacade = new UserDaoImpl();
 
     @FXML
+    protected void initialize() {
+        // Add listeners to text fields to enable/disable the login button
+        ChangeListener<String> textFieldListener = (observable, oldValue, newValue) -> {
+            logButton.setDisable(usernameField.getText().isEmpty() || passwordField.getText().isEmpty());
+        };
+
+        usernameField.textProperty().addListener(textFieldListener);
+        passwordField.textProperty().addListener(textFieldListener);
+
+        // Initially disable the login button
+        logButton.setDisable(true);
+    }
+    @FXML
     protected void logButtonOnAction(ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getCharacters().toString();
@@ -55,7 +69,8 @@ public class MainController {
                 error1.setFill(Color.RED);
             } else if (username != null) {
                 error1.setText("");
-            } if (currentUser == null && !username.isEmpty()) {
+            }
+            if (currentUser == null && !username.isEmpty()) {
                 error1.setText("Username does not exist");
                 error1.setFill(Color.RED);
             }

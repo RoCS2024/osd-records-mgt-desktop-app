@@ -17,18 +17,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
@@ -74,10 +71,14 @@ public class ViolationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         PrefectInfoMgtApplication app = new PrefectInfoMgtApplication();
         violationFacade = app.getViolationFacade();
 
+        initializeTable(); // Extract table initialization to a method for reusability
+        setupSearchFieldListener(); // Add listener for search field
+    }
+
+    private void initializeTable() {
         tableView.getItems().clear();
         List<Violation> violations = violationFacade.getAllViolation();
         ObservableList<Violation> data = FXCollections.observableArrayList(violations);
@@ -89,27 +90,21 @@ public class ViolationController implements Initializable {
             String lastName = cellData.getValue().getStudent().getLastName();
             return new SimpleStringProperty(firstName + " " + lastName);
         });
-        studColumn.getStyleClass().addAll("student-column");
 
         TableColumn<Violation, String> offenseColumn = new TableColumn<>("OFFENSE");
         offenseColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOffense().getDescription()));
-        offenseColumn.getStyleClass().addAll("offense-id-column");
 
         TableColumn<Violation, Integer> warningColumn = new TableColumn<>("WARNING NO.");
         warningColumn.setCellValueFactory(new PropertyValueFactory<>("warningNum"));
-        warningColumn.getStyleClass().addAll("warning-column");
 
         TableColumn<Violation, Integer> csHoursColumn = new TableColumn<>("CS HOURS");
         csHoursColumn.setCellValueFactory(new PropertyValueFactory<>("commServHours"));
-        csHoursColumn.getStyleClass().addAll("cs-hours-column");
 
         TableColumn<Violation, String> disciplinaryColumn = new TableColumn<>("DISCIPLINARY ACTION");
         disciplinaryColumn.setCellValueFactory(new PropertyValueFactory<>("disciplinaryAction"));
-        disciplinaryColumn.getStyleClass().addAll("disciplinary-column");
 
         TableColumn<Violation, Timestamp> dateColumn = new TableColumn<>("DATE OF NOTICE");
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("dateOfNotice"));
-        dateColumn.getStyleClass().addAll("date-column");
         dateColumn.setCellFactory(getDateCellFactory());
 
         TableColumn<Violation, String> approvedByColumn = new TableColumn<>("APPROVED BY");
@@ -118,39 +113,30 @@ public class ViolationController implements Initializable {
             String lastName = cellData.getValue().getApprovedBy().getLastName();
             return new SimpleStringProperty(firstName + " " + lastName);
         });
-        approvedByColumn.getStyleClass().addAll("approvedBy-column");
 
-        TableColumn<Violation, String> actionColumn = new TableColumn<>("ACTION");
-        actionColumn.setCellValueFactory(new PropertyValueFactory<>(""));
-        actionColumn.getStyleClass().addAll("action-column");
-        actionColumn.setCellFactory(cell -> {
-            final Button editButton_2 = new Button();
-            TableCell<Violation, String> cellInstance = new TableCell<>() {
-                @Override
-                public void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        editButton_2.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/assets/pencil.png"))));
-                        editButton_2.setOnAction(event -> {
-                            Violation violation = getTableView().getItems().get(getIndex());
-                            showEditViolation(violation, (ActionEvent) event);
-                        });
-                        HBox hbox = new HBox(editButton_2);
-                        hbox.setSpacing(10);
-                        hbox.setAlignment(Pos.BASELINE_CENTER);
-                        setGraphic(hbox);
-                        setText(null);
-                    }
-                }
-            };
-            return cellInstance;
-        });
-
-        tableView.getColumns().addAll(studColumn, offenseColumn , warningColumn, csHoursColumn, disciplinaryColumn, dateColumn, approvedByColumn, actionColumn);
+        tableView.getColumns().addAll(studColumn, offenseColumn, warningColumn, csHoursColumn, disciplinaryColumn, dateColumn, approvedByColumn);
     }
+
+    private void setupSearchFieldListener() {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterTableData(newValue);
+        });
+    }
+
+    private void filterTableData(String searchTerm) {
+        List<Violation> violations = violationFacade.getAllViolation();
+        ObservableList<Violation> filteredData = FXCollections.observableArrayList();
+
+        for (Violation violation : violations) {
+            String studentName = violation.getStudent().getFirstName().toLowerCase() + " " + violation.getStudent().getLastName().toLowerCase();
+            if (studentName.contains(searchTerm.toLowerCase())) {
+                filteredData.add(violation);
+            }
+        }
+
+        tableView.setItems(filteredData);
+    }
+
 
     private Callback<TableColumn<Violation, Timestamp>, TableCell<Violation, Timestamp>> getDateCellFactory() {
         return column -> new TableCell<>() {
@@ -167,18 +153,6 @@ public class ViolationController implements Initializable {
                 }
             }
         };
-    }
-
-    @FXML
-    protected void handleIconUserList(MouseEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/UserList.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML

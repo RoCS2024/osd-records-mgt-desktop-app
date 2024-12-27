@@ -4,7 +4,6 @@ import com.rc.porms.PrefectInfoMgtApplication;
 import com.rc.porms.appl.facade.prefect.offense.OffenseFacade;
 import com.rc.porms.appl.model.offense.Offense;
 import com.rc.porms.controllers.modal.EditOffenseController;
-import com.rc.porms.controllers.search.SearchOffenseController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -72,25 +71,47 @@ public class OffenseController implements Initializable {
 
         setupTable(data);
 
+        // Filter offenses by category
         filterBox.valueProperty().addListener((observable, oldValue, newValue) -> {
             List<Offense> filteredOffenses = filterOffenses(newValue);
             ObservableList<Offense> filteredData = FXCollections.observableArrayList(filteredOffenses);
-
             setupTable(filteredData);
+        });
+
+        // Add listener for search functionality
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            List<Offense> searchResults = searchOffenses(newValue);
+            ObservableList<Offense> searchData = FXCollections.observableArrayList(searchResults);
+            setupTable(searchData);
         });
     }
 
+    /**
+     * Filters the list of offenses based on the search query.
+     * @param query The search query entered by the user.
+     * @return A list of offenses matching the query.
+     */
+    private List<Offense> searchOffenses(String query) {
+        if (query == null || query.isEmpty()) {
+            return offenseFacade.getAllOffense();
+        }
+
+        // Search by matching the description
+        return offenseFacade.getAllOffense().stream()
+                .filter(offense -> offense.getDescription().toLowerCase().contains(query.toLowerCase()))
+                .toList();
+    }
     private void setupTable(ObservableList<Offense> data) {
         table.getItems().clear();
         table.setItems(data);
 
-        TableColumn offenseTypeColumn = new TableColumn("OFFENSE TYPE");
-        offenseTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        offenseTypeColumn.getStyleClass().addAll("type-column");
-
         TableColumn offenseDescriptionColumn = new TableColumn("OFFENSE DESCRIPTION");
         offenseDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         offenseDescriptionColumn.getStyleClass().addAll("description-column");
+
+        TableColumn offenseTypeColumn = new TableColumn("OFFENSE TYPE");
+        offenseTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        offenseTypeColumn.getStyleClass().addAll("type-column");
 
         TableColumn<Offense, String> actionColumn = new TableColumn<>("ACTION");
         actionColumn.setCellValueFactory(new PropertyValueFactory<>(""));
@@ -121,7 +142,7 @@ public class OffenseController implements Initializable {
             return cellInstance;
         });
 
-        table.getColumns().setAll(offenseTypeColumn, offenseDescriptionColumn, actionColumn);
+        table.getColumns().setAll(offenseDescriptionColumn, offenseTypeColumn, actionColumn);
     }
 
     private List<Offense> filterOffenses(String filter) {
@@ -219,27 +240,6 @@ public class OffenseController implements Initializable {
             BorderPane.setMargin(sidebarPane, new Insets(0));
         } else {
             BorderPane.setMargin(sidebarPane, new Insets(0, -125.0, 0, 0));
-        }
-    }
-
-    //for search
-    @FXML
-    private void handleSearchButton(ActionEvent event) {
-        String offenseName = searchField.getText();
-
-        System.out.println("Offense Name: " + offenseName);
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/SearchStudentOffense.fxml"));
-
-            SearchOffenseController searchOffenseController = new SearchOffenseController();
-            searchOffenseController.initData(offenseName);
-            loader.setController(searchOffenseController);
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }
