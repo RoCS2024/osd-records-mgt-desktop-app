@@ -100,11 +100,6 @@
                                 <Image url="@../assets/deus22.png" />
                             </image>
                         </ImageView>
-                        <Text fill="#00214a" strokeType="INSIDE" strokeWidth="0.0" text="No Account? Create One." textAlignment="CENTER" wrappingWidth="196.0" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                            <font>
-                                <Font name="Arial Rounded MT Bold" size="15.0" />
-                            </font>
-                        </Text>
                     </children>
                 </GridPane>
             </children>
