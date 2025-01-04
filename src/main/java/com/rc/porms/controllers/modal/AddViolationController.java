@@ -38,6 +38,8 @@ public class AddViolationController{
     public Text error;
     public Text error1;
     public Text error2;
+    public Text error3;
+    public Text error4;
     @FXML
     private TextField studentIdField;
     @FXML
@@ -86,22 +88,40 @@ public class AddViolationController{
             error.setText(" ");
         }
 
+//        if( offenseComboBox.getText(Choose Offence)){
+//            error1.setText("This is required");
+//            error1.setFill(Color.RED);
+//            return;
+//
+//        }else{
+//            error1.setText(" ");
+//        }
+
+
         if (!isNumeric(warningNumField.getText()) || !isNumeric(csHoursField.getText())) {
-            error1.setText("Warning Number and CS Hours must be numeric.");
-            error1.setFill(Color.RED);
+            error2.setText("Warning Number and CS Hours must be numeric.");
+            error2.setFill(Color.RED);
             return;
         }else{
-            error1.setText(" ");
+            error2.setText(" ");
+        }
+
+        if(disciplinaryField.getText().isEmpty()){
+            error3.setText("Please fill the text");
+            error3.setFill(Color.RED);
+            return;
+        }else {
+            error3.setText(" ");
         }
 
         LocalDate currentDate = LocalDate.now();
         LocalDate selectedDate = dateField.getValue();
         if (selectedDate != null && selectedDate.isAfter(currentDate)) {
-            error2.setText("Invalid input: Violation date cannot be in the future.");
-            error2.setFill(Color.RED);
+            error4.setText("Invalid input: Violation date cannot be in the future.");
+            error4.setFill(Color.RED);
             return;
         }else{
-            error2.setText(" ");
+            error4.setText(" ");
         }
 
         PrefectInfoMgtApplication app = new PrefectInfoMgtApplication();
