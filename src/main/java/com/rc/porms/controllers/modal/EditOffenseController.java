@@ -40,6 +40,9 @@ public class EditOffenseController implements Initializable {
         PrefectInfoMgtApplication app = new PrefectInfoMgtApplication();
         offenseFacade = app.getOffenseFacade();
 
+        String offenseValue = offenseField.getText();
+        String valOffense = comboBox.getValue();
+
         if (comboBox.getValue() == null || offenseField.getText().isEmpty()) {
             error.setText( "Error Missing Information: Please fill in all required fields.");
             error.setFill(Color.RED);
@@ -47,6 +50,25 @@ public class EditOffenseController implements Initializable {
         }else{
             error.setText("");
         }
+
+        // Validate the length of the offense value
+        if (offenseValue.length() > 32) {
+            error.setText("Character must be 32 characters only");
+            error.setFill(Color.RED);
+            return;
+        } else {
+            error.setText("");
+        }
+
+// Validate if the offense value is alphanumeric
+        if (!offenseValue.matches("[a-zA-Z0-9]+")) {
+            error.setText("Alphanumeric characters only");
+            error.setFill(Color.RED);
+            return;
+        } else {
+            error.setText("");
+        }
+
 
         Offense editOffense = new Offense();
         editOffense.setId(offense.getId());

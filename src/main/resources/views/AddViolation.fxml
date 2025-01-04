@@ -82,10 +82,17 @@
                            <rowConstraints>
                               <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label prefWidth="300.0" text="Offense:" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
-                              <ComboBox fx:id="offenseComboBox" prefHeight="40.0" prefWidth="302.0" promptText="Choose Offense" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                              <Label prefWidth="300.0" text="Offense:" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+                              <ComboBox fx:id="offenseComboBox" prefHeight="40.0" prefWidth="302.0" promptText="Choose Offense" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                              <Pane prefHeight="21.0" prefWidth="360.0" GridPane.rowIndex="3">
+                                 <children>
+                                    <Text fx:id="error1" layoutX="71.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="218.13671875" />
+                                 </children>
+                              </Pane>
                            </children>
                         </GridPane>
                         <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="60.0" prefWidth="360.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="CENTER">
@@ -113,7 +120,7 @@
                            </columnConstraints>
                            <rowConstraints>
                               <RowConstraints />
-                              <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
@@ -122,6 +129,11 @@
                                  <cursor>
                                     <Cursor fx:constant="TEXT" />
                                  </cursor></DatePicker>
+                              <Pane prefHeight="21.0" prefWidth="301.0">
+                                 <children>
+                                    <Text fx:id="error3" layoutX="72.0" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="215.7366943359375" />
+                                 </children>
+                              </Pane>
                            </children>
                         </GridPane>
                         <GridPane layoutX="10.0" layoutY="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -167,7 +179,7 @@
                               <Label prefWidth="300.0" text="Approved By:" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
                               <Pane prefHeight="18.0" prefWidth="360.0">
                                  <children>
-                                    <Text fx:id="error2" layoutX="49.0" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="262.4000244140625" />
+                                    <Text fx:id="error4" layoutX="49.0" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="262.4000244140625" />
                                  </children>
                               </Pane>
                            </children>
@@ -241,12 +253,14 @@
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                            </columnConstraints>
                            <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
                               <RowConstraints />
                               <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <TextField fx:id="disciplinaryField" maxHeight="-Infinity" maxWidth="-Infinity" onKeyReleased="#handleStudentIdChanged" prefHeight="40.0" prefWidth="300.0" promptText="Enter Disciplinary Action" style="-fx-background-color: #f0f0f0; -fx-border-color: #999999; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                              <TextField fx:id="disciplinaryField" maxHeight="-Infinity" maxWidth="-Infinity" onKeyReleased="#handleStudentIdChanged" prefHeight="40.0" prefWidth="300.0" promptText="Enter Disciplinary Action" style="-fx-background-color: #f0f0f0; -fx-border-color: #999999; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
@@ -254,10 +268,15 @@
                                     <Cursor fx:constant="TEXT" />
                                  </cursor>
                               </TextField>
-                              <Label prefWidth="300.0" text="Disciplinary Action:" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
-                              <Pane prefHeight="21.0" prefWidth="360.0">
+                              <Label prefWidth="300.0" text="Disciplinary Action:" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
+                              <Pane prefHeight="21.0" prefWidth="360.0" GridPane.rowIndex="1">
                                  <children>
-                                    <Text fx:id="error1" layoutX="21.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="318.40008544921875" />
+                                    <Text fx:id="error2" layoutX="21.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="318.40008544921875" />
+                                 </children>
+                              </Pane>
+                              <Pane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <Text fx:id="error2" layoutX="64.0" layoutY="13.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="231.7366943359375" />
                                  </children>
                               </Pane>
                            </children>
