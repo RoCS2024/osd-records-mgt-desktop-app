@@ -323,4 +323,5 @@ public class ViolationController implements Initializable {
         alert.setContentText(contentText);
         alert.showAndWait();
     }
+
 }

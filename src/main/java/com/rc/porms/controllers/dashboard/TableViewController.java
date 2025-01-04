@@ -208,4 +208,24 @@ public class TableViewController implements Initializable {
             }
         };
     }
+
+    @FXML
+    protected void handleIconLogout (MouseEvent event) {
+        try {
+            Stage previousStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            previousStage.close();
+
+            Stage dashboardStage = new Stage();
+            dashboardStage.initStyle(StageStyle.UNDECORATED);
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/MainView.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            dashboardStage.setScene(scene);
+            dashboardStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
