@@ -24,6 +24,8 @@ public interface ViolationDao {
      */
     List<Violation> getAllViolationByStudent(Student studentId);
 
+    List<Violation> getAllViolationByClusterName(String clusterName);
+
     /**
      * This gets a Violation from the database with a specific ID
      *

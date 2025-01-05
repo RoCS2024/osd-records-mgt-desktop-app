@@ -33,6 +33,8 @@ public interface ViolationFacade {
      * @return the Violation.
      * */
     List<Violation> getAllViolationByStudent(Student studentId);
+
+    List<Violation> getAllViolationByClusterName(String clusterName);
     /**
      * Updates a Student in the database.
      *
