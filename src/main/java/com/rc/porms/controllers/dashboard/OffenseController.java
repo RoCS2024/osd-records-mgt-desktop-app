@@ -126,6 +126,7 @@ public class OffenseController implements Initializable {
                         setGraphic(null);
                         setText(null);
                     } else {
+                        editButton.setId("editButton-" + getIndex());
                         editButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/assets/pencil.png"))));
                         editButton.setOnAction(event -> {
                             Offense offense = getTableView().getItems().get(getIndex());
