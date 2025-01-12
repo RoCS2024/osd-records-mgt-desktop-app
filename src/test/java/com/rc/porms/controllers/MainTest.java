@@ -93,18 +93,8 @@ class MainTest extends ApplicationTest {
         clickOn("#passwordField");
         write("Password@123");
         clickOn("#logButton");
-        sleep(2000);
-    }
+        sleep(1000);
 
-    @TestFx
-    public void testLoginAndAddOffense() {
-        MainController.setTestMode(true);
-
-        clickOn("#usernameField");
-        write("conrad");
-        clickOn("#passwordField");
-        write("Password@123");
-        clickOn("#logButton");
 
         verifyThat("#table", isVisible());
         sleep(500);
@@ -123,18 +113,13 @@ class MainTest extends ApplicationTest {
         clickOn("#saveAddButton");
         sleep(1000);
 
-        verifyThat(".dialog-pane", isVisible());
-        clickOn("OK");
 
         clickOn("#comboBox");
         sleep(1000);
         clickOn("Major");
         sleep(1000);
         clickOn("#saveAddButton");
-        sleep(1000);
 
-        verifyThat(".dialog-pane", isVisible());
-        clickOn("OK");
 
         clickOn("#cancelAddButton");
         sleep(2000);
@@ -145,15 +130,11 @@ class MainTest extends ApplicationTest {
         verifyThat(".dialog-pane", isVisible());
 
         clickOn("#offenseField");
-        write("Minor and Major");
+        write("Test");
         sleep(1000);
         clickOn("#saveAddButton");
         sleep(1000);
-        verifyThat(".dialog-pane", isVisible());
-        clickOn("OK");
-        sleep(1000);
         clickOn("#cancelAddButton");
-        sleep(2000);
 
         //Test if pwede mag lagay ng alpha numeric sa offense
         clickOn("#addOffenseButton");
@@ -168,7 +149,7 @@ class MainTest extends ApplicationTest {
         sleep(1000);
         clickOn("#saveAddButton");
         sleep(1000);
-
+        clickOn("#cancelAddButton");
 
         //test para makapag add ng offense minor
         clickOn("#addOffenseButton");
@@ -176,7 +157,7 @@ class MainTest extends ApplicationTest {
         verifyThat(".dialog-pane", isVisible());
 
         clickOn("#offenseField");
-        write("Minor Test");
+        write("MinorTest");
         clickOn("#comboBox");
         sleep(1000);
         clickOn("Minor");
@@ -190,7 +171,7 @@ class MainTest extends ApplicationTest {
         verifyThat(".dialog-pane", isVisible());
 
         clickOn("#offenseField");
-        write("Major Test");
+        write("MajorTest");
         clickOn("#comboBox");
         sleep(1000);
         clickOn("Major");
@@ -198,5 +179,221 @@ class MainTest extends ApplicationTest {
         clickOn("#saveAddButton");
         sleep(2000);
         verifyThat("#table", isVisible());
+
+        //Test para sa search ng offense pati filter
+
+        clickOn("#searchField");
+        sleep(1000);
+        write("MajorTest");
+        sleep(1000);
+        eraseText(9);
+        sleep(1000);
+        write("MinorTest");
+        sleep(1000);
+        eraseText(9);
+        sleep(1000);
+
+
+        clickOn("#filterBox");
+        sleep(500);
+        clickOn("Minor");
+        sleep(1000);
+
+
+        clickOn("#filterBox");
+        sleep(500);
+        clickOn("Major");
+        sleep(1000);
+
+
+        clickOn("#filterBox");
+        sleep(500);
+        clickOn("All");
+        sleep(1000);
+
+        //test para sa edit ng offense
+
+        clickOn("#editButton-0");
+        sleep(1000);
+        eraseText(1);
+        sleep(500);
+        write("EditMinor");
+        sleep(1000);
+        clickOn("#comboBox");
+        sleep(1000);
+        clickOn("Minor");
+        sleep(1000);
+        clickOn("#saveAddButton");
+        sleep(1000);
+
+
+        moveTo(800, 330);
+        clickOn(800, 330);
+        sleep(1000);
+
+
+        clickOn("#editButton-0");
+        sleep(1000);
+        eraseText(1);
+        sleep(500);
+        write("EditMajor");
+        sleep(1000);
+        clickOn("#comboBox");
+        clickOn("Major");
+        sleep(1000);
+        clickOn("#saveAddButton");
+        sleep(1000);
+
+        moveTo(800, 330);
+        clickOn(800, 330);
+        sleep(1000);
+
+
+
+        clickOn("#burgerButton");
+        sleep(1000);
+        clickOn("#violationlistButton");
+        sleep(1000);
+
+        clickOn("#addviolationButton");
+        sleep(1000);
+
+        //test if makakakapag save ng violation kahit student lang ilalagay
+
+        clickOn("#studentIdField");
+        eraseText(8);
+        sleep(500);
+        write("CT21-0122");
+        sleep(1000);
+        clickOn("#saveAddButton");
+        sleep(1000);
+        clickOn("#cancelAddButton");
+        sleep(1000);
+
+        //check if makakapag add ng violation kahit walang student na ilagay
+
+
+        clickOn("#addviolationButton");
+        sleep(1000);
+        clickOn("#studentIdField");
+        sleep(1000);
+        write("CT210122");
+        sleep(1000);
+        clickOn("#offenseComboBox");
+        sleep(1000);
+        clickOn("Haircut");
+        sleep(1000);
+        clickOn("#warningNumField");
+        write("1");
+        sleep(1000);
+        clickOn("#csHoursField");
+        write("4");
+        sleep(1000);
+        clickOn("#disciplinaryField");
+        write("Cleaning");
+        sleep(1000);
+        clickOn(820, 490);
+        sleep(1000);
+        clickOn(590, 590);
+        sleep(1000);
+        clickOn("#employeeIdField");
+        write("111");
+        sleep(1000);
+        clickOn("#saveAddButton");
+        sleep(1000);
+
+        //check if makakapag add ng violation kahit future na date ang ilagay
+
+
+        clickOn("#addviolationButton");
+        sleep(1000);
+        clickOn("#studentIdField");
+        sleep(1000);
+        write("CT21-0122");
+        sleep(1000);
+        clickOn("#offenseComboBox");
+        sleep(1000);
+        clickOn("Haircut");
+        sleep(1000);
+        clickOn("#warningNumField");
+        write("1");
+        sleep(1000);
+        clickOn("#csHoursField");
+        write("4");
+        sleep(1000);
+        clickOn("#disciplinaryField");
+        write("Cleaning");
+        sleep(1000);
+        clickOn(820, 490);
+        sleep(1000);
+        clickOn(590, 590);
+        clickOn(675, 490);
+        eraseText(4);
+        write("2030");
+        sleep(1000);
+        clickOn("#employeeIdField");
+        write("111");
+        sleep(1000);
+        clickOn("#saveAddButton");
+        sleep(1000);
+
+        //check kung makakapag add ng violation kung may letter sa occurence at sa cs hours
+
+        clickOn("#addviolationButton");
+        sleep(1000);
+        clickOn("#studentIdField");
+        sleep(1000);
+        write("CT21-0122");
+        sleep(1000);
+        clickOn("#offenseComboBox");
+        sleep(1000);
+        clickOn("Haircut");
+        sleep(1000);
+        clickOn("#warningNumField");
+        write("one");
+        sleep(1000);
+        clickOn("#csHoursField");
+        write("4");
+        sleep(1000);
+        clickOn("#disciplinaryField");
+        write("Cleaning");
+        sleep(1000);
+        clickOn(820, 490);
+        sleep(1000);
+        clickOn(590, 590);
+        sleep(1000);
+        clickOn("#employeeIdField");
+        write("111");
+        sleep(1000);
+        clickOn("#saveAddButton");
+        sleep(1000);
+        clickOn("#warningNumField");
+        eraseText(4);
+        write("1");
+        clickOn("#csHoursField");
+        eraseText(1);
+        write("four");
+        clickOn("#saveAddButton");
+        sleep(1000);
+        clickOn("#csHoursField");
+        eraseText(4);
+        write("4");
+        sleep(1000);
+        clickOn("#saveAddButton");
+        sleep(1000);
+
+        //test if nagana ang search sa violation
+
+
+        clickOn("#searchField");
+        sleep(1000);
+        write("Conrad");
+        sleep(1000);
+
+        clickOn("#searchButton");
+        sleep(3000);
+
+
+
     }
 }
