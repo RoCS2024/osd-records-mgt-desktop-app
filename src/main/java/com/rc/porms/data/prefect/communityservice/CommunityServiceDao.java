@@ -17,4 +17,5 @@ public interface CommunityServiceDao {
      */
     List<CommunityService> getAllCs();
 
+    List<CommunityService> getAllCSByClusterName(String clusterName);
 }

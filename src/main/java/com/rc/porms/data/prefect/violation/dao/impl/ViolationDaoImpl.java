@@ -219,26 +219,22 @@ public class ViolationDaoImpl implements ViolationDao {
                     Violation violation = new Violation();
                     violation.setId(resultSet.getInt("violation_id"));
 
-                    // Set Student
                     Student student = new Student();
                     student.setId(resultSet.getInt("student_id"));
                     student.setFirstName(resultSet.getString("student_first_name"));
                     student.setLastName(resultSet.getString("student_last_name"));
                     violation.setStudent(student);
 
-                    // Retrieve and set Offense
                     OffenseDao offenseDao = new OffenseDaoImpl();
                     OffenseFacade offenseFacade = new OffenseFacadeImpl(offenseDao);
                     Offense offense = offenseFacade.getOffenseByID(resultSet.getInt("offense_id"));
                     violation.setOffense(offense);
 
-                    // Set other properties
                     violation.setWarningNum(resultSet.getInt("warning_number"));
                     violation.setCommServHours(resultSet.getInt("cs_hours"));
                     violation.setDisciplinaryAction(resultSet.getString("disciplinary_action"));
                     violation.setDateOfNotice(resultSet.getTimestamp("date_of_notice"));
 
-                    // Retrieve and set Approved By Employee
                     EmployeeInfoMgtApplication appl = new EmployeeInfoMgtApplication();
                     EmployeeFacade employeeFacade = appl.getEmployeeFacade();
                     Employee employee = employeeFacade.getById(resultSet.getInt("approved_by_id"));

@@ -89,5 +89,25 @@ public class QueryConstants {
                     "JOIN student stud ON cs.student_id = stud.id " +
                     "JOIN station state ON cs.area_of_comm_serv_id = state.id";
 
+    public static final String GET_ALL_CS_BY_CLUSTER_NAME_STATEMENT =
+            "SELECT " +
+                    "csr.cs_slip_id, " +
+                    "csr.reports_id, " +
+                    "cs.reason_of_cs AS cs_reason_of_cs, " +
+                    "state.station_name AS station_station_name, " +
+                    "stud.id AS student_id, " +
+                    "stud.first_name AS student_first_name, " +
+                    "stud.last_name AS student_last_name, " +
+                    "stud.middle_name AS student_middle_name, " +
+                    "cr.hours_completed AS cr_hours_completed, " +
+                    "cr.nature_of_work AS cr_nature_of_work, " +
+                    "cr.date_of_cs AS cr_date_of_cs " +
+                    "FROM cs_slip_reports csr " +
+                    "JOIN cs_slip cs ON csr.cs_slip_id = cs.id " +
+                    "JOIN cs_report cr ON csr.reports_id = cr.id " +
+                    "JOIN student stud ON cs.student_id = stud.id " +
+                    "JOIN station state ON cs.area_of_comm_serv_id = state.id " +
+                    "JOIN section sec ON stud.section_section_id = sec.section_id " +
+                    "WHERE sec.cluster_name LIKE ?";
 
 }
