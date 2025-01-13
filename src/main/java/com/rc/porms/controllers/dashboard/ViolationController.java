@@ -52,6 +52,8 @@ public class ViolationController implements Initializable {
 
     private boolean sidebarVisible = false;
 
+    @FXML
+    private ComboBox<String> filterBox;
     //for search
     @FXML
     private TextField searchField;
@@ -74,9 +76,33 @@ public class ViolationController implements Initializable {
         PrefectInfoMgtApplication app = new PrefectInfoMgtApplication();
         violationFacade = app.getViolationFacade();
 
-        initializeTable(); // Extract table initialization to a method for reusability
-        setupSearchFieldListener(); // Add listener for search field
+        initializeTable();
+        setupSearchFieldListener();
+
+        filterBox.getItems().addAll("All", "CETE", "CBAM");
+        filterBox.setValue("All");
+
+        // Set up listener for filterBox
+        filterBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if ("All".equals(newValue)) {
+                populateTableWithAllViolations();
+            } else {
+                populateTableWithFilteredViolations(newValue);
+            }
+        });
     }
+    private void populateTableWithAllViolations() {
+        List<Violation> violations = violationFacade.getAllViolation();
+        ObservableList<Violation> data = FXCollections.observableArrayList(violations);
+        tableView.setItems(data);
+    }
+
+    private void populateTableWithFilteredViolations(String clusterName) {
+        List<Violation> violations = violationFacade.getAllViolationByClusterName(clusterName); // Adjust this to your method
+        ObservableList<Violation> data = FXCollections.observableArrayList(violations);
+        tableView.setItems(data);
+    }
+
 
     private void initializeTable() {
         tableView.getItems().clear();

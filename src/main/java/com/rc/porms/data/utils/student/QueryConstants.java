@@ -17,6 +17,10 @@ public class QueryConstants {
 
     public static final String GET_STUDENT_BY_STUDENT_STATEMENT = "SELECT * FROM STUDENT WHERE ID = ?";
 
+    public static final String GET_STUDENT_BY_CLUSTER_NAME_STATEMENT =
+            "SELECT * FROM STUDENT s " +
+                    "JOIN SECTION sec ON s.SECTION_ID = sec.SECTION_ID " +
+                    "WHERE sec.CLUSTER_NAME LIKE ?";
 
     /**
      * SQL query that adds a new student to the database.

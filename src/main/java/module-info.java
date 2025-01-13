@@ -7,6 +7,7 @@ module osd.records.mgt.desktop.app {
     requires org.slf4j;
     requires org.apache.logging.log4j.slf4j2.impl;
     requires jbcrypt;
+    requires com.oracle.database.jdbc;
 
     opens com.rc.porms to javafx.fxml;
     opens com.rc.porms.controllers.main to javafx.fxml;

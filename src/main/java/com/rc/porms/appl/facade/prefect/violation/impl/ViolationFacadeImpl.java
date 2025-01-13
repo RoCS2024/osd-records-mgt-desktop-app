@@ -65,6 +65,15 @@ public class ViolationFacadeImpl implements ViolationFacade {
         }
     }
 
+    @Override
+    public List<Violation> getAllViolationByClusterName(String clusterName) {
+        try {
+            return violationDao.getAllViolationByClusterName(clusterName);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to retrieve all Violation: " + e.getMessage(), e);
+        }
+    }
+
 
     /**
      * Updates an existing Violation in the database.
