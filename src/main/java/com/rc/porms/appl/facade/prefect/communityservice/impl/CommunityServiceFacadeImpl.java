@@ -6,7 +6,6 @@ package com.rc.porms.appl.facade.prefect.communityservice.impl;
 
 import com.rc.porms.appl.facade.prefect.communityservice.CommunityServiceFacade;
 import com.rc.porms.appl.model.communityservice.CommunityService;
-import com.rc.porms.appl.model.student.Student;
 import com.rc.porms.data.prefect.communityservice.CommunityServiceDao;
 
 import java.util.List;
@@ -25,6 +24,15 @@ public class CommunityServiceFacadeImpl implements CommunityServiceFacade {
      */
     public CommunityServiceFacadeImpl(CommunityServiceDao communityServiceDao) {
         this.communityServiceDao = communityServiceDao;
+    }
+
+    @Override
+    public List<CommunityService> getAllCSByClusterName(String clusterName) {
+        try {
+            return communityServiceDao.getAllCSByClusterName(clusterName);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to retrieve all Violation: " + e.getMessage(), e);
+        }
     }
 
 

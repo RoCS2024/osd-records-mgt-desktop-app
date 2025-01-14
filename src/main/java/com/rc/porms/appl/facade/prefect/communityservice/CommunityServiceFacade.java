@@ -14,6 +14,8 @@ import java.util.List;
  */
 public interface CommunityServiceFacade {
 
+    List<CommunityService> getAllCSByClusterName(String clusterName);
+
     /**
      * Retrieves all community services from the database.
      *

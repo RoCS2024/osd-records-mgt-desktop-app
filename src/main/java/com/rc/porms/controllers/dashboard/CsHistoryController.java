@@ -6,6 +6,7 @@ import com.rc.porms.appl.facade.prefect.communityservice.CommunityServiceFacade;
 import com.rc.porms.appl.facade.student.StudentFacade;
 import com.rc.porms.appl.model.communityservice.CommunityService;
 import com.rc.porms.appl.model.student.Student;
+import com.rc.porms.appl.model.violation.Violation;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,7 +39,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class CsHistoryController implements Initializable{
-    //for sidebar uses
     @FXML
     private Button burgerButton;
 
@@ -50,11 +50,12 @@ public class CsHistoryController implements Initializable{
 
     private boolean sidebarVisible = false;
 
-    //for search
     @FXML
     private TextField searchField;
 
-    //for table id
+    @FXML
+    private ComboBox<String> filterBox;
+
     @FXML
     TableView table;
 
@@ -67,32 +68,59 @@ public class CsHistoryController implements Initializable{
 
         communityServiceFacade = app.getCommunityserviceFacade();
 
+        initializeTable();
+        setupSearchFieldListener();
+
+        filterBox.getItems().addAll("All", "CETE", "CBAM");
+        filterBox.setValue("All");
+
+        filterBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if ("All".equals(newValue)) {
+                populateTableWithAllCS();
+            } else {
+                populateTableWithFilteredCS(newValue);
+            }
+        });
+    }
+    private void populateTableWithAllCS() {
+        List<CommunityService> communityServices = communityServiceFacade.getAllCs();
+        ObservableList<CommunityService> data = FXCollections.observableArrayList(communityServices);
+        table.setItems(data);
+    }
+
+    private void populateTableWithFilteredCS(String clusterName) {
+        List<CommunityService> communityServices = communityServiceFacade.getAllCSByClusterName(clusterName);
+        ObservableList<CommunityService> data = FXCollections.observableArrayList(communityServices);
+        table.setItems(data);
+    }
+
+    private void initializeTable() {
         table.getItems().clear();
         List<CommunityService> communityServices = communityServiceFacade.getAllCs();
         ObservableList<CommunityService> data = FXCollections.observableArrayList(communityServices);
         table.setItems(data);
 
-        TableColumn<CommunityService, String> studColumn = new TableColumn<>("NAME");
+        TableColumn<CommunityService, String> studColumn = new TableColumn<>("STUDENT NAME");
         studColumn.setCellValueFactory(cellData -> {
             String firstName = cellData.getValue().getStudent().getFirstName();
             String lastName = cellData.getValue().getStudent().getLastName();
             return new SimpleStringProperty(firstName + " " + lastName);
         });
-        studColumn.getStyleClass().addAll("student-column");
 
-        TableColumn<CommunityService, String> stationColumn = new TableColumn<>("STATION");
-        stationColumn.setCellValueFactory(cellData -> {
-            String station_name = cellData.getValue().getStation_name();
-            return new SimpleStringProperty(station_name);
-        });
-        stationColumn.getStyleClass().addAll("station-column");
+        TableColumn<CommunityService, String> station = new TableColumn<>("STATION");
+        station.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStation_name()));
 
         TableColumn<CommunityService, String> dateRendered = new TableColumn<>("DATE");
         dateRendered.setCellValueFactory(cellData -> {
             Timestamp date = cellData.getValue().getDate_rendered();
-            return new SimpleStringProperty(date.toString());
+            if (date != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String formattedDate = date.toLocalDateTime().toLocalDate().format(formatter);
+                return new SimpleStringProperty(formattedDate);
+            } else {
+                return new SimpleStringProperty("");
+            }
         });
-        dateRendered.getStyleClass().addAll("date-column");
 
         TableColumn<CommunityService, String> reasonOfCS = new TableColumn<>("REASON");
         reasonOfCS.setCellValueFactory(cellData -> {
@@ -118,36 +146,35 @@ public class CsHistoryController implements Initializable{
         natureOfWork.getStyleClass().addAll("nature-column");
 
 
-        table.getColumns().addAll(studColumn, stationColumn, dateRendered, reasonOfCS, hoursCompleted, natureOfWork);
+        table.getColumns().addAll(studColumn, station, dateRendered,reasonOfCS,hoursCompleted, natureOfWork);
     }
 
-    private Callback<TableColumn<CommunityService, Timestamp>, TableCell<CommunityService, Timestamp>> getDateCellFactory() {
-        return column -> new TableCell<>() {
-            private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-            @Override
-            protected void updateItem(Timestamp item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    LocalDate date = item.toLocalDateTime().toLocalDate();
-                    setText(formatter.format(date));
-                }
-            }
-        };
+    private void setupSearchFieldListener() {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterTableData(newValue);
+        });
     }
 
-    @FXML
-    protected void handleIconUserList(MouseEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/UserList.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void filterTableData(String searchTerm) {
+        String selectedFilter = filterBox.getValue();
+        List<CommunityService> communityServices;
+
+        if ("All".equals(selectedFilter)) {
+            communityServices = communityServiceFacade.getAllCs();
+        } else {
+            communityServices = communityServiceFacade.getAllCSByClusterName(selectedFilter);
         }
+
+        ObservableList<CommunityService> filteredData = FXCollections.observableArrayList();
+
+        for (CommunityService communityService : communityServices) {
+            String studentName = communityService.getStudent().getFirstName().toLowerCase() + " " + communityService.getStudent().getLastName().toLowerCase();
+            if (studentName.contains(searchTerm.toLowerCase())) {
+                filteredData.add(communityService);
+            }
+        }
+
+        table.setItems(filteredData);
     }
 
     @FXML
@@ -206,7 +233,6 @@ public class CsHistoryController implements Initializable{
         }
     }
 
-    //for sidebar actions
     @FXML
     private void toggleSidebarVisibility(ActionEvent event) {
         sidebarVisible = !sidebarVisible;

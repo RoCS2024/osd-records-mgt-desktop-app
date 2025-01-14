@@ -5,6 +5,7 @@ import com.rc.porms.StudentInfoMgtApplication;
 import com.rc.porms.appl.facade.employee.EmployeeFacade;
 import com.rc.porms.appl.facade.prefect.violation.ViolationFacade;
 import com.rc.porms.appl.facade.student.StudentFacade;
+import com.rc.porms.appl.model.communityservice.CommunityService;
 import com.rc.porms.appl.model.student.Student;
 import com.rc.porms.appl.model.violation.Violation;
 import com.rc.porms.controllers.modal.EditViolationController;
@@ -40,7 +41,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ViolationController implements Initializable {
-    //for sidebar uses
     @FXML
     private Button burgerButton;
 
@@ -54,14 +54,12 @@ public class ViolationController implements Initializable {
 
     @FXML
     private ComboBox<String> filterBox;
-    //for search
     @FXML
     private TextField searchField;
 
     @FXML
     private ToggleButton searchButton;
 
-    //for table id
     @FXML
     TableView tableView;
 
@@ -82,7 +80,6 @@ public class ViolationController implements Initializable {
         filterBox.getItems().addAll("All", "CETE", "CBAM");
         filterBox.setValue("All");
 
-        // Set up listener for filterBox
         filterBox.valueProperty().addListener((observable, oldValue, newValue) -> {
             if ("All".equals(newValue)) {
                 populateTableWithAllViolations();
@@ -98,7 +95,7 @@ public class ViolationController implements Initializable {
     }
 
     private void populateTableWithFilteredViolations(String clusterName) {
-        List<Violation> violations = violationFacade.getAllViolationByClusterName(clusterName); // Adjust this to your method
+        List<Violation> violations = violationFacade.getAllViolationByClusterName(clusterName);
         ObservableList<Violation> data = FXCollections.observableArrayList(violations);
         tableView.setItems(data);
     }
@@ -150,7 +147,15 @@ public class ViolationController implements Initializable {
     }
 
     private void filterTableData(String searchTerm) {
-        List<Violation> violations = violationFacade.getAllViolation();
+        String selectedFilter = filterBox.getValue();
+        List<Violation> violations;
+
+        if ("All".equals(selectedFilter)) {
+            violations = violationFacade.getAllViolation();
+        } else {
+            violations = violationFacade.getAllViolationByClusterName(selectedFilter);
+        }
+
         ObservableList<Violation> filteredData = FXCollections.observableArrayList();
 
         for (Violation violation : violations) {
@@ -284,7 +289,6 @@ public class ViolationController implements Initializable {
         }
     }
 
-    //for sidebar actions
     @FXML
     private void toggleSidebarVisibility(ActionEvent event) {
         sidebarVisible = !sidebarVisible;
@@ -299,29 +303,23 @@ public class ViolationController implements Initializable {
 
     @FXML
     private void handleSearchButton(ActionEvent event) {
-        String searchTerm = searchField.getText().trim(); // Remove leading and trailing spaces
+        String searchTerm = searchField.getText().trim();
 
         StudentInfoMgtApplication app = new StudentInfoMgtApplication();
         StudentFacade studentFacade = app.getStudentFacade();
 
-        // Retrieve all students
         List<Student> allStudents = studentFacade.getAllStudents();
 
-        // Filter students by name
         List<Student> matchingStudents = new ArrayList<>();
         for (Student student : allStudents) {
             String fullName = student.getFirstName().toLowerCase() + " " + student.getLastName().toLowerCase();
 
-            // Check if the full name contains the search term, ignoring case
             if (fullName.contains(searchTerm.toLowerCase())) {
                 matchingStudents.add(student);
             }
         }
 
         if (!matchingStudents.isEmpty()) {
-            // Assuming you want to handle the case where there are multiple students with the same name,
-            // you might display a list of matching students or navigate to a different view.
-            // For simplicity, I'm assuming you're selecting the first matching student.
             Student selectedStudent = matchingStudents.get(0);
 
             try {
