@@ -64,38 +64,32 @@ public class MainController {
         try {
             User currentUser = userFacade.getUserByUsername(username);
 
-            if (username.isEmpty()) {
-                error1.setText("Username is required.");
-                error1.setFill(Color.RED);
-            } else if (username != null) {
-                error1.setText("");
-            }
-            if (currentUser == null && !username.isEmpty()) {
-                error1.setText("Username does not exist");
-                error1.setFill(Color.RED);
-            }
-            if (password.isEmpty()){
-                error.setText("Password is required.");
-                error.setFill(Color.RED);
-            }else if (username != null ) {
+            if (currentUser == null) {
+                if (!username.isEmpty()) {
+                    error1.setText("Username does not exist");
+                    error1.setFill(Color.RED);
+                }
+            } else {
+                // Clear the error message when currentUser is not null
                 error1.setText("");
             }
 
-            if(currentUser != null && BCrypt.checkpw(password, currentUser.getPassword())) {
-                if(checkRoleAdmin(currentUser).equals("admin")){
-                    showAlert("Login Successful", "Welcome " + username + "!", Alert.AlertType.INFORMATION);
-                    openAdminDashboardWindow(event);
-                } else if((checkRoleAdmin(currentUser).equals("prefect"))){
-                    showAlert("Login Successful", "Welcome " + username + "!", Alert.AlertType.INFORMATION);
-                    openPrefectDashboardWindow(event);
+            if (currentUser != null) {
+                if (BCrypt.checkpw(password, currentUser.getPassword())) {
+                    if (checkRoleAdmin(currentUser).equals("admin")) {
+                        showAlert("Login Successful", "Welcome " + username + "!", Alert.AlertType.INFORMATION);
+                        openAdminDashboardWindow(event);
+                    } else if (checkRoleAdmin(currentUser).equals("prefect")) {
+                        showAlert("Login Successful", "Welcome " + username + "!", Alert.AlertType.INFORMATION);
+                        openPrefectDashboardWindow(event);
+                    }
+                } else if (!password.isEmpty()) {
+                    // Only show this if the password is incorrect and non-empty
+                    error.setText("Incorrect Password");
+                    error.setFill(Color.RED);
                 }
-            }if (!password.isEmpty()){
-                error.setText("Incorrect Password");
-                error.setFill(Color.RED);
-            }else if (!password.isEmpty()){
-                error.setText("");
             }
-        } catch (Exception ex) {
+        }catch (Exception ex) {
             showAlert("Error", "An error occurred during login: " + ex.getMessage(), Alert.AlertType.ERROR);
             ex.printStackTrace();
         }

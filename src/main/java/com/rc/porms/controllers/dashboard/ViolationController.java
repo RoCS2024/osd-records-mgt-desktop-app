@@ -138,6 +138,18 @@ public class ViolationController implements Initializable {
         });
 
         tableView.getColumns().addAll(studColumn, offenseColumn, warningColumn, csHoursColumn, disciplinaryColumn, dateColumn, approvedByColumn);
+
+        // Add event listener for row clicks
+        tableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) { // Detect double-click
+                Violation selectedViolation = (Violation) tableView.getSelectionModel().getSelectedItem();
+                if (selectedViolation != null) {
+                    String studentName = selectedViolation.getStudent().getFirstName() + " " + selectedViolation.getStudent().getLastName();
+                    searchField.setText(studentName); // Set the search field with the student's name
+                    handleSearchButton(new ActionEvent(event.getSource(), null)); // Trigger the search function
+                }
+            }
+        });
     }
 
     private void setupSearchFieldListener() {
