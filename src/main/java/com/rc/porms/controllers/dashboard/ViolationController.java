@@ -18,15 +18,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
@@ -137,7 +140,38 @@ public class ViolationController implements Initializable {
             return new SimpleStringProperty(firstName + " " + lastName);
         });
 
-        tableView.getColumns().addAll(studColumn, offenseColumn, warningColumn, csHoursColumn, disciplinaryColumn, dateColumn, approvedByColumn);
+        TableColumn<Violation, String> actionColumn = new TableColumn<>("ACTION");
+        actionColumn.setCellValueFactory(new PropertyValueFactory<>(""));
+        actionColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.4)); // 40% w
+        actionColumn.getStyleClass().addAll("action-column");
+        actionColumn.setCellFactory(cell -> {
+            final Button editButton_2 = new Button();
+            TableCell<Violation, String> cellInstance = new TableCell<>() {
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        editButton_2.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/assets/pencil.png"))));
+                        editButton_2.setOnAction(event -> {
+                            Violation violation = getTableView().getItems().get(getIndex());
+                            showEditViolation(violation, (ActionEvent) event);
+                        });
+                        HBox hbox = new HBox(editButton_2);
+                        hbox.setSpacing(10);
+                        hbox.setAlignment(Pos.BASELINE_CENTER);
+                        setGraphic(hbox);
+                        setText(null);
+                    }
+                }
+            };
+            return cellInstance;
+        });
+
+
+        tableView.getColumns().addAll(studColumn, offenseColumn, warningColumn, csHoursColumn, disciplinaryColumn, dateColumn, approvedByColumn, actionColumn);
 
         // Add event listener for row clicks
         tableView.setOnMouseClicked(event -> {
@@ -151,6 +185,7 @@ public class ViolationController implements Initializable {
             }
         });
     }
+
 
     private void setupSearchFieldListener() {
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {

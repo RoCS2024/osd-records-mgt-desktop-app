@@ -11,11 +11,12 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rc.porms.controllers.modal.EditViolationController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rc.porms.controllers.modal.EditViolationController">
     <children>
         <BorderPane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #999999;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <center>
@@ -52,11 +53,12 @@
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     </columnConstraints>
                                     <rowConstraints>
+                                        <RowConstraints />
                                         <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
-                                        <TextField fx:id="studentIdField" maxHeight="-Infinity" maxWidth="-Infinity" onKeyReleased="#handleStudentIdChanged" prefHeight="40.0" prefWidth="300.0" promptText="Enter Student ID" style="-fx-background-color: #f0f0f0; -fx-border-color: #999999; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                        <TextField fx:id="studentIdField" maxHeight="-Infinity" maxWidth="-Infinity" onKeyReleased="#handleStudentIdChanged" prefHeight="40.0" prefWidth="300.0" promptText="Enter Student ID" style="-fx-background-color: #f0f0f0; -fx-border-color: #999999; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
                                             <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                             </padding>
@@ -64,7 +66,12 @@
                                                 <Cursor fx:constant="TEXT" />
                                             </cursor>
                                         </TextField>
-                                        <Label prefWidth="300.0" text="Student ID:" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
+                                        <Label prefWidth="300.0" text="Student ID:" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+                              <Pane prefHeight="19.0" prefWidth="360.0">
+                                 <children>
+                                    <Text fx:id="error" layoutX="88.0" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="184.53668212890625" />
+                                 </children>
+                              </Pane>
                                     </children>
                                 </GridPane>
                                 <GridPane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
@@ -74,10 +81,18 @@
                                     <rowConstraints>
                                         <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
-                                        <Label prefWidth="300.0" text="Offense:" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
-                                        <ComboBox fx:id="offenseComboBox" prefHeight="40.0" prefWidth="302.0" promptText="Choose Offense" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                                        <Label prefWidth="300.0" text="Offense:" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+                                        <ComboBox fx:id="offenseComboBox" prefHeight="40.0" prefWidth="302.0" promptText="Choose Offense" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
+                                 <children>
+                                    <Text fx:id="error2" layoutX="49.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="262.93670654296875" />
+                                 </children>
+                              </Pane>
                                     </children>
                                 </GridPane>
                                 <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="60.0" prefWidth="360.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="CENTER">
@@ -105,15 +120,21 @@
                                     </columnConstraints>
                                     <rowConstraints>
                                         <RowConstraints />
+                                        <RowConstraints />
                                         <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
-                                        <Label prefWidth="300.0" text="Date of Notice of Violation:" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
-                                        <DatePicker fx:id="dateField" prefHeight="40.0" prefWidth="300.0" promptText="MM-DD-YYYY" style="-fx-background-color: #f0f0f0; -fx-border-color: #999999; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                                        <Label prefWidth="300.0" text="Date of Notice of Violation:" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
+                                        <DatePicker fx:id="dateField" prefHeight="40.0" prefWidth="300.0" promptText="MM-DD-YYYY" style="-fx-background-color: #f0f0f0; -fx-border-color: #999999; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP">
                                             <cursor>
                                                 <Cursor fx:constant="TEXT" />
                                             </cursor></DatePicker>
+                              <Pane prefHeight="22.0" prefWidth="360.0" GridPane.rowIndex="1">
+                                 <children>
+                                    <Text fx:id="error4" layoutX="42.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="274.4769287109375" />
+                                 </children>
+                              </Pane>
                                     </children>
                                 </GridPane>
                                 <GridPane layoutX="10.0" layoutY="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -220,16 +241,17 @@
                                         <Label prefWidth="300.0" text="Personnel Name" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
                                     </children>
                                 </GridPane>
-                                <GridPane GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                <GridPane prefHeight="62.0" prefWidth="360.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                     <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     </columnConstraints>
                                     <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
-                                        <TextField fx:id="disciplinaryField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="300.0" promptText="Enter Disciplinary Action" style="-fx-background-color: #f0f0f0; -fx-border-color: #999999; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                        <TextField fx:id="disciplinaryField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="300.0" promptText="Enter Disciplinary Action" style="-fx-background-color: #f0f0f0; -fx-border-color: #999999; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
                                             <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                             </padding>
@@ -237,7 +259,14 @@
                                                 <Cursor fx:constant="TEXT" />
                                             </cursor>
                                         </TextField>
-                                        <Label prefWidth="300.0" text="Disciplinary Action:" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
+                                        <Label prefWidth="300.0" text="Disciplinary Action:" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+                              <Pane prefHeight="9.0" prefWidth="360.0">
+                                 <children>
+                                    <Text fx:id="error3" layoutX="134.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Text fx:id="error5" layoutX="82.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Text fx:id="error6" layoutX="102.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                 </children>
+                              </Pane>
                                     </children>
                                 </GridPane>
                             </children>
