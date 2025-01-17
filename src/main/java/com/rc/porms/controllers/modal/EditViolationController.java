@@ -23,6 +23,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -33,6 +35,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class EditViolationController{
+    public Text error;
+    public Text error1;
+    public Text error2;
+    public Text error3;
+    public Text error4;
+
+    public Text error5;
+    public Text error6;
+
+
     @FXML
     private TextField studentIdField;
     @FXML
@@ -74,6 +86,65 @@ public class EditViolationController{
 
     @FXML
     protected void saveUpdateClicked(ActionEvent event) {
+
+        LocalDate currentDate = LocalDate.now();
+        LocalDate selectedDate = dateField.getValue();
+
+        // Check if the violation date is in the future
+        if (selectedDate != null && selectedDate.isAfter(currentDate)) {
+            error4.setText("Invalid input: Violation date cannot be in the future.");
+            error4.setFill(Color.RED);
+            return;
+        } else {
+            error4.setText("");
+        }
+
+        // Check if required fields are filled
+        if (studentIdField.getText().isEmpty() || employeeIdField.getText().isEmpty() || dateField.getValue() == null) {
+            error.setText("Please fill in all required fields.");
+            error.setFill(Color.RED);
+            return;
+        } else {
+            error.setText("");
+        }
+
+        // Check if Warning Number and CS Hours are numeric
+        if (!isNumeric(warningNumField.getText()) || !isNumeric(csHoursField.getText())) {
+            error2.setText("Warning Number and CS Hours must be numeric.");
+            error2.setFill(Color.RED);
+            return;
+        } else {
+            error2.setText("");
+        }
+
+        // Check if disciplinary field is empty
+        if (disciplinaryField.getText().isEmpty()) {
+            error3.setText("Please fill the text.");
+            error3.setFill(Color.RED);
+            return;
+        } else {
+            error3.setText("");
+        }
+
+        // Check if disciplinary field exceeds 32 characters
+        if (disciplinaryField.getText().length() > 32) {
+            error5.setText("Character limit is 32 characters only.");
+            error5.setFill(Color.RED);
+            return;
+        } else {
+            error5.setText(" ");
+        }
+
+        // Check if disciplinary field contains only alphanumeric characters
+        if (!disciplinaryField.getText().matches("[a-zA-Z0-9]+")) {
+            error6.setText("Alphanumeric characters only.");
+            error6.setFill(Color.RED);
+            return;
+        } else {
+            error6.setText(" ");
+        }
+
+
         PrefectInfoMgtApplication app = new PrefectInfoMgtApplication();
         violationFacade = app.getViolationFacade();
 
@@ -96,20 +167,10 @@ public class EditViolationController{
         editViolation.setOffense(offense);
         editViolation.setApprovedBy(employee);
 
-        LocalDate selectedDate = dateField.getValue();
-        if (selectedDate != null) {
-            try {
-                LocalDateTime localDateTime = selectedDate.atStartOfDay();
-                Timestamp timestamp = Timestamp.valueOf(localDateTime);
-                editViolation.setDateOfNotice(timestamp);
-            } catch (IllegalArgumentException e) {
-                showAlert(Alert.AlertType.ERROR, "Invalid Date", "Please select a valid date.");
-                return;
-            }
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Missing Date", "Please select a date.");
-            return;
-        }
+
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        editViolation.setDateOfNotice(Timestamp.valueOf(localDateTime));
 
 
         editViolation.setWarningNum(Integer.parseInt(warningNumField.getText()));
@@ -141,15 +202,6 @@ public class EditViolationController{
                 e.printStackTrace();
             }
         }
-    }
-    private boolean validateFields() {
-        if (studentIdField.getText().isEmpty() || offenseComboBox.getValue() == null || warningNumField.getText().isEmpty() ||
-                csHoursField.getText().isEmpty() || disciplinaryField.getText().isEmpty() || dateField.getValue() == null ||
-                employeeIdField.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Missing Information", "Please fill out all fields.");
-            return false;
-        }
-        return true;
     }
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
@@ -223,5 +275,8 @@ public class EditViolationController{
                 employeeNameField.clear();
             }
         }
+    }
+    private boolean isNumeric(String str) {
+        return str.matches("\\d+");
     }
 }

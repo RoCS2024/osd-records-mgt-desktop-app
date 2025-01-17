@@ -40,6 +40,12 @@ public class AddViolationController{
     public Text error2;
     public Text error3;
     public Text error4;
+
+    public Text error5;
+
+    public Text error6;
+
+
     @FXML
     private TextField studentIdField;
     @FXML
@@ -88,15 +94,6 @@ public class AddViolationController{
             error.setText(" ");
         }
 
-//        if( offenseComboBox.getText(Choose Offence)){
-//            error1.setText("This is required");
-//            error1.setFill(Color.RED);
-//            return;
-//
-//        }else{
-//            error1.setText(" ");
-//        }
-
 
         if (!isNumeric(warningNumField.getText()) || !isNumeric(csHoursField.getText())) {
             error2.setText("Warning Number and CS Hours must be numeric.");
@@ -107,7 +104,7 @@ public class AddViolationController{
         }
 
         if(disciplinaryField.getText().isEmpty()){
-            error3.setText("Please fill the text");
+            error3.setText("Please fill the text box");
             error3.setFill(Color.RED);
             return;
         }else {
@@ -122,6 +119,24 @@ public class AddViolationController{
             return;
         }else{
             error4.setText(" ");
+        }
+
+        // Check if disciplinary field exceeds 32 characters
+        if (disciplinaryField.getText().length() > 32) {
+            error5.setText("Character limit is 32 characters only.");
+            error5.setFill(Color.RED);
+            return;
+        } else {
+            error5.setText(" ");
+        }
+
+        // Check if disciplinary field contains only alphanumeric characters
+        if (!disciplinaryField.getText().matches("[a-zA-Z0-9]+")) {
+            error6.setText("Alphanumeric characters only.");
+            error6.setFill(Color.RED);
+            return;
+        } else {
+            error6.setText(" ");
         }
 
         PrefectInfoMgtApplication app = new PrefectInfoMgtApplication();

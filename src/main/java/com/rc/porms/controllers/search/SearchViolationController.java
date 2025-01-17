@@ -45,9 +45,9 @@ public class SearchViolationController implements Initializable {
 
     @FXML
     private Button previousButton;
-
+    @FXML
+    private Button renderBtn;
     private ViolationFacade violationFacade;
-    //private CommunityServiceFacade communityServiceFacade;
     private Student student;
 
     public void initData(Student student) {
@@ -66,12 +66,16 @@ public class SearchViolationController implements Initializable {
         violationFacade = app.getViolationFacade();
 
         previousButton.setOnAction(event -> {handleBack2Previous((ActionEvent) event);});
-        System.out.println("student data passed: " + student.getStudentId());
+
 
         tableView.getItems().clear();
         if (student != null) {
 
             List<Violation> studentViolations = violationFacade.getAllViolationByStudent(student);
+
+            int totalCommServHours = computeTotalCommServHours(studentViolations);
+            totalField.setText(String.valueOf(totalCommServHours));
+
             ObservableList<Violation> data = FXCollections.observableArrayList(studentViolations);
             tableView.setItems(data);
         } else {
@@ -104,6 +108,11 @@ public class SearchViolationController implements Initializable {
         warningColumn.setCellValueFactory(new PropertyValueFactory<>("warningNum"));
         warningColumn.getStyleClass().addAll("warning-column");
         warningColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.4)); // 40% w
+
+        TableColumn<Violation, Integer> csHoursColumn = new TableColumn<>("CS HOURS");
+        csHoursColumn.setCellValueFactory(new PropertyValueFactory<>("commServHours"));
+        csHoursColumn.getStyleClass().addAll("cs-hours-column");
+        csHoursColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.4)); // 40% w
 
         TableColumn<Violation, String> disciplinaryColumn = new TableColumn<>("DISCIPLINARY ACTION");
         disciplinaryColumn.setCellValueFactory(new PropertyValueFactory<>("disciplinaryAction"));
@@ -155,7 +164,15 @@ public class SearchViolationController implements Initializable {
             return cellInstance;
         });
 
-        tableView.getColumns().addAll(studIdColumn, studColumn, offenseColumn, warningColumn, disciplinaryColumn, dateColumn, approvedByColumn, actionColumn);
+        tableView.getColumns().addAll(studIdColumn, studColumn, offenseColumn , warningColumn, csHoursColumn, disciplinaryColumn, dateColumn, approvedByColumn, actionColumn);
+    }
+
+    private int computeTotalCommServHours(List<Violation> studentViolations) {
+        int totalCommServHours = 0;
+        for (Violation violation : studentViolations) {
+            totalCommServHours += violation.getCommServHours();
+        }
+        return totalCommServHours;
     }
 
 
@@ -174,6 +191,23 @@ public class SearchViolationController implements Initializable {
                 }
             }
         };
+    }
+
+
+    private void showDashboard3() {
+        try {
+            Stage dashboardStage3 = new Stage();
+            dashboardStage3.initStyle(StageStyle.UNDECORATED);
+
+            FXMLLoader loader3 = new FXMLLoader();
+            loader3.setLocation(getClass().getResource("/views/RenderCsByStudent.fxml"));
+            Parent root3 = loader3.load();
+            Scene scene3 = new Scene(root3);
+            dashboardStage3.setScene(scene3);
+            dashboardStage3.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showEditViolation(Violation violation, ActionEvent event) {

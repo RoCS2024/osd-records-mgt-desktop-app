@@ -26,6 +26,8 @@ public class MainController {
 
     public Text error1;
 
+    public Text error2;
+
     @FXML
     private TextField usernameField;
     @FXML
@@ -43,19 +45,6 @@ public class MainController {
     UserDao userFacade = new UserDaoImpl();
 
     @FXML
-    protected void initialize() {
-        // Add listeners to text fields to enable/disable the login button
-        ChangeListener<String> textFieldListener = (observable, oldValue, newValue) -> {
-            logButton.setDisable(usernameField.getText().isEmpty() || passwordField.getText().isEmpty());
-        };
-
-        usernameField.textProperty().addListener(textFieldListener);
-        passwordField.textProperty().addListener(textFieldListener);
-
-        // Initially disable the login button
-        logButton.setDisable(true);
-    }
-    @FXML
     protected void logButtonOnAction(ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getCharacters().toString();
@@ -63,6 +52,24 @@ public class MainController {
 
         try {
             User currentUser = userFacade.getUserByUsername(username);
+
+            if (username.isEmpty() || password.isEmpty()) {
+                error2.setText("All Fields are Required");
+                error2.setFill(Color.RED);
+            }else{
+                error2.setText(" ");
+            }if(username.isEmpty() && !password.isEmpty()){
+                error1.setText("Username is Required");
+                error1.setFill(Color.RED);
+            }else {
+                error1.setText("");
+            }
+            if(!username.isEmpty() && password.isEmpty()){
+                error.setText("Password is Required");
+                error.setFill(Color.RED);
+            }else {
+                error.setText("");
+            }
 
             if (currentUser == null) {
                 if (!username.isEmpty()) {
