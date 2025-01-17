@@ -87,20 +87,31 @@ public class OffenseController implements Initializable {
     }
 
     /**
-     * Filters the list of offenses based on the search query.
+     * Filters the list of offenses based on the search query and the selected filter (Minor or Major).
      * @param query The search query entered by the user.
-     * @return A list of offenses matching the query.
+     * @return A list of offenses matching the query and filter.
      */
     private List<Offense> searchOffenses(String query) {
-        if (query == null || query.isEmpty()) {
-            return offenseFacade.getAllOffense();
+        String selectedFilter = filterBox.getValue();
+        List<Offense> offenses;
+
+        if (selectedFilter.equals("All")) {
+            offenses = offenseFacade.getAllOffense();
+        } else {
+            // Only filter by type if it's Minor or Major
+            offenses = offenseFacade.getAllOffenseByType(selectedFilter);
         }
 
-        // Search by matching the description
-        return offenseFacade.getAllOffense().stream()
+        if (query == null || query.isEmpty()) {
+            return offenses;
+        }
+
+        // Filter offenses based on the description and selected type
+        return offenses.stream()
                 .filter(offense -> offense.getDescription().toLowerCase().contains(query.toLowerCase()))
                 .toList();
     }
+
     private void setupTable(ObservableList<Offense> data) {
         table.getItems().clear();
         table.setItems(data);
@@ -146,6 +157,11 @@ public class OffenseController implements Initializable {
         table.getColumns().setAll(offenseDescriptionColumn, offenseTypeColumn, actionColumn);
     }
 
+    /**
+     * Filters the offenses based on the selected filter (Minor, Major, or All).
+     * @param filter The selected filter.
+     * @return A list of offenses that match the selected filter.
+     */
     private List<Offense> filterOffenses(String filter) {
         if (filter.equals("All")) {
             return offenseFacade.getAllOffense();
@@ -154,7 +170,6 @@ public class OffenseController implements Initializable {
         } else if (filter.equals("Major")) {
             return offenseFacade.getAllOffenseByType("Major");
         }
-        //empty return
         return new ArrayList<>();
     }
 
