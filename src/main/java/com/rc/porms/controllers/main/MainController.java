@@ -50,38 +50,51 @@ public class MainController {
         String password = passwordField.getCharacters().toString();
         String password2 = passwordShown.getText();
 
+        boolean hasError = false;
+
+        // Reset styles
+        usernameField.setStyle("");
+        passwordField.setStyle("");
+
         try {
             User currentUser = userFacade.getUserByUsername(username);
 
-            if (username.isEmpty() || password.isEmpty()) {
-                error2.setText("All Fields are Required");
-                error2.setFill(Color.RED);
-            }else{
-                error2.setText(" ");
-            }if(username.isEmpty() && !password.isEmpty()){
+            // Validation for empty fields
+            if (username.isEmpty()) {
                 error1.setText("Username is Required");
                 error1.setFill(Color.RED);
-            }else {
+                usernameField.setStyle("-fx-border-color: red;");
+                hasError = true;
+            } else {
                 error1.setText("");
             }
-            if(!username.isEmpty() && password.isEmpty()){
+
+            if (password.isEmpty()) {
                 error.setText("Password is Required");
                 error.setFill(Color.RED);
-            }else {
+                passwordField.setStyle("-fx-border-color: red;");
+                hasError = true;
+            } else {
                 error.setText("");
+            }
+
+            if (hasError) {
+                error2.setText("All Fields are Required");
+                error2.setFill(Color.RED);
+                return;
+            } else {
+                error2.setText(" ");
             }
 
             if (currentUser == null) {
                 if (!username.isEmpty()) {
                     error1.setText("Username does not exist");
                     error1.setFill(Color.RED);
+                    usernameField.setStyle("-fx-border-color: red;");
                 }
             } else {
-                // Clear the error message when currentUser is not null
                 error1.setText("");
-            }
 
-            if (currentUser != null) {
                 if (BCrypt.checkpw(password, currentUser.getPassword())) {
                     if (checkRoleAdmin(currentUser).equals("admin")) {
                         showAlert("Login Successful", "Welcome " + username + "!", Alert.AlertType.INFORMATION);
@@ -90,13 +103,13 @@ public class MainController {
                         showAlert("Login Successful", "Welcome " + username + "!", Alert.AlertType.INFORMATION);
                         openPrefectDashboardWindow(event);
                     }
-                } else if (!password.isEmpty()) {
-                    // Only show this if the password is incorrect and non-empty
+                } else {
                     error.setText("Incorrect Password");
                     error.setFill(Color.RED);
+                    passwordField.setStyle("-fx-border-color: red;");
                 }
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             showAlert("Error", "An error occurred during login: " + ex.getMessage(), Alert.AlertType.ERROR);
             ex.printStackTrace();
         }

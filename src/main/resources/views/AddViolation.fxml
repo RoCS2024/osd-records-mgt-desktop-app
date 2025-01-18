@@ -133,8 +133,6 @@
                               <Pane prefHeight="21.0" prefWidth="301.0">
                                  <children>
                                     <Text fx:id="error4" layoutX="43.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="273.33673095703125" />
-                                    <Text fx:id="error5" layoutX="86.0" layoutY="17.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                                    <Text fx:id="error6" layoutX="102.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                                  </children>
                               </Pane>
                            </children>
@@ -271,6 +269,8 @@
                               <Pane prefHeight="200.0" prefWidth="200.0">
                                  <children>
                                     <Text fx:id="error3" layoutX="119.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="122.13671875" />
+                                    <Text fx:id="error5" layoutX="84.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Text fx:id="error6" layoutX="85.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                                  </children>
                               </Pane>
                            </children>

@@ -40,70 +40,84 @@ public class AddOffenseController implements Initializable {
 
     @FXML
     protected void saveAddOffenseClicked(ActionEvent event) {
+
         PrefectInfoMgtApplication app = new PrefectInfoMgtApplication();
         offenseFacade = app.getOffenseFacade();
+
+        boolean hasError = false;
+
+        // Reset styles for required fields
+        offenseField.setStyle("");
+        comboBox.setStyle("");
 
         String offenseValue = offenseField.getText();
         String valOffense = comboBox.getValue();
 
         // Validate if the offense value is empty
         if (offenseValue.isEmpty()) {
+            offenseField.setStyle("-fx-border-color: red;");
             error.setText("Offense is empty. Please input Offense");
             error.setFill(Color.RED);
-            return;
+            hasError = true;
         } else {
             error.setText("");
         }
 
-// Validate the length of the offense value
+        // Validate the length of the offense value
         if (offenseValue.length() > 32) {
+            offenseField.setStyle("-fx-border-color: red;");
             error.setText("Character must be 32 characters only");
             error.setFill(Color.RED);
-            return;
+            hasError = true;
         } else {
             error.setText("");
         }
 
-// Validate if the offense value is alphanumeric
+        // Validate if the offense value is alphanumeric
         if (!offenseValue.matches("[a-zA-Z0-9]+")) {
+            offenseField.setStyle("-fx-border-color: red;");
             error.setText("Alphanumeric characters only");
             error.setFill(Color.RED);
-            return;
+            hasError = true;
         } else {
             error.setText("");
         }
 
-// Validate if the offense type is selected
+        // Validate if the offense type is selected
         if (valOffense == null || valOffense.equals("Select offense type")) {
+            comboBox.setStyle("-fx-border-color: red;");
             error.setText("Error: Select an offense");
             error.setFill(Color.RED);
-            return;
+            hasError = true;
         } else {
             error.setText("");
         }
 
-// Validate if the selected offense is either "major" or "minor"
+        // Validate if the selected offense is either "major" or "minor"
         if (!valOffense.equalsIgnoreCase("major") && !valOffense.equalsIgnoreCase("minor")) {
+            comboBox.setStyle("-fx-border-color: red;");
             error1.setText("Error: Please select either 'major' or 'minor' offense");
             error1.setFill(Color.RED);
-            return;
+            hasError = true;
         } else {
             error1.setText("");
+        }
+
+        if (hasError) {
+            return;
         }
 
         Offense addOffense = new Offense();
         addOffense.setType(comboBox.getValue());
         addOffense.setDescription(offenseField.getText());
 
-
         try {
             offenseFacade.addOffense(addOffense);
         } catch(Exception ex) {
             ex.printStackTrace();;
-        }
-        finally {
+        } finally {
             try {
-                //back to list after adding
+                // Back to list after adding
                 Stage previousStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 previousStage.close();
 
@@ -122,7 +136,6 @@ public class AddOffenseController implements Initializable {
             }
         }
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         subjects = FXCollections.observableArrayList("Select a offense","Minor", "Major");

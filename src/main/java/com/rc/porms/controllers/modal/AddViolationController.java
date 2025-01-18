@@ -86,43 +86,79 @@ public class AddViolationController{
 
     @FXML
     protected void saveAddClicked(ActionEvent event) {
-        if (studentIdField.getText().isEmpty() || employeeIdField.getText().isEmpty() || dateField.getValue() == null) {
+        boolean hasError = false;
+
+        // Reset styles for required fields
+        studentIdField.setStyle("");
+        employeeIdField.setStyle("");
+        dateField.setStyle("");
+
+        // Check for empty required fields
+        if (studentIdField.getText().isEmpty()) {
+            studentIdField.setStyle("-fx-border-color: red;");
+            hasError = true;
+        }
+
+        if (employeeIdField.getText().isEmpty()) {
+            employeeIdField.setStyle("-fx-border-color: red;");
+            hasError = true;
+        }
+
+        if (dateField.getValue() == null) {
+            dateField.setStyle("-fx-border-color: red;");
+            hasError = true;
+        }
+
+        if (hasError) {
             error.setText("Please fill in all required fields.");
             error.setFill(Color.RED);
             return;
-        }else{
+        } else {
             error.setText(" ");
         }
 
-
-        if (!isNumeric(warningNumField.getText()) || !isNumeric(csHoursField.getText())) {
+        // Check if numeric fields are valid
+        if (!isNumeric(warningNumField.getText())) {
+            warningNumField.setStyle("-fx-border-color: red;");
             error2.setText("Warning Number and CS Hours must be numeric.");
             error2.setFill(Color.RED);
             return;
-        }else{
+        }
+
+        if (!isNumeric(csHoursField.getText())) {
+            csHoursField.setStyle("-fx-border-color: red;");
+            error2.setText("Warning Number and CS Hours must be numeric.");
+            error2.setFill(Color.RED);
+            return;
+        } else {
             error2.setText(" ");
         }
 
-        if(disciplinaryField.getText().isEmpty()){
+        // Check if disciplinary field is empty
+        if (disciplinaryField.getText().isEmpty()) {
+            disciplinaryField.setStyle("-fx-border-color: red;");
             error3.setText("Please fill the text box");
             error3.setFill(Color.RED);
             return;
-        }else {
+        } else {
             error3.setText(" ");
         }
 
+        // Check for future date
         LocalDate currentDate = LocalDate.now();
         LocalDate selectedDate = dateField.getValue();
         if (selectedDate != null && selectedDate.isAfter(currentDate)) {
+            dateField.setStyle("-fx-border-color: red;");
             error4.setText("Invalid input: Violation date cannot be in the future.");
             error4.setFill(Color.RED);
             return;
-        }else{
+        } else {
             error4.setText(" ");
         }
 
-        // Check if disciplinary field exceeds 32 characters
+        // Check character limit for disciplinary field
         if (disciplinaryField.getText().length() > 32) {
+            disciplinaryField.setStyle("-fx-border-color: red;");
             error5.setText("Character limit is 32 characters only.");
             error5.setFill(Color.RED);
             return;
@@ -130,15 +166,15 @@ public class AddViolationController{
             error5.setText(" ");
         }
 
-        // Check if disciplinary field contains only alphanumeric characters
+        // Check for alphanumeric characters in disciplinary field
         if (!disciplinaryField.getText().matches("[a-zA-Z0-9]+")) {
+            disciplinaryField.setStyle("-fx-border-color: red;");
             error6.setText("Alphanumeric characters only.");
             error6.setFill(Color.RED);
             return;
         } else {
             error6.setText(" ");
         }
-
         PrefectInfoMgtApplication app = new PrefectInfoMgtApplication();
         violationFacade = app.getViolationFacade();
 
