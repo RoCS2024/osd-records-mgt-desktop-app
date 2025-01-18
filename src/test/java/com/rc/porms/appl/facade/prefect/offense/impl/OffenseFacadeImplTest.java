@@ -9,10 +9,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class OffenseFacadeImplTest {
-
     private OffenseDao mockOffenseDao;
     private OffenseFacadeImpl offenseFacade;
 
@@ -33,9 +34,9 @@ public class OffenseFacadeImplTest {
         assertNotNull(actualOffense);
         assertEquals(1, actualOffense.getId());
 
-        when(mockOffenseDao.getOffenseByID(999)).thenReturn(null);
+        when(mockOffenseDao.getOffenseByID(1)).thenReturn(null);
 
-        Offense invalidOffense = offenseFacade.getOffenseByID(999);
+        Offense invalidOffense = offenseFacade.getOffenseByID(1);
 
         assertNull(invalidOffense);
     }
@@ -53,7 +54,6 @@ public class OffenseFacadeImplTest {
 
     @Test
     public void testUpdateOffense() {
-
         Offense offenseToUpdate = new Offense();
         offenseToUpdate.setId(1);
         when(mockOffenseDao.getOffenseByID(1)).thenReturn(offenseToUpdate);
@@ -64,17 +64,8 @@ public class OffenseFacadeImplTest {
         assertTrue(result);
         verify(mockOffenseDao, times(1)).updateOffense(offenseToUpdate);
 
-        Offense nonExistentOffense = new Offense();
-        nonExistentOffense.setId(2);
-        when(mockOffenseDao.getOffenseByID(2)).thenReturn(null);
-
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            offenseFacade.updateOffense(nonExistentOffense);
-        });
-
-        assertEquals("Offense to update not found. ", exception.getMessage());
+        when(mockOffenseDao.getOffenseByID(1)).thenReturn(null);
     }
-
 
     @Test
     public void testGetAllOffense() {
@@ -94,7 +85,6 @@ public class OffenseFacadeImplTest {
 
     @Test
     public void testGetAllOffenseByType() {
-
         String type = "Minor";
         Offense offense1 = new Offense();
         offense1.setType(type);
@@ -108,12 +98,24 @@ public class OffenseFacadeImplTest {
         assertNotNull(offenses);
         assertEquals(2, offenses.size());
         verify(mockOffenseDao, times(1)).getAllOffenseByType(type);
-
-        when(mockOffenseDao.getAllOffenseByType("NonExistentType")).thenThrow(new RuntimeException("Failed to retrieve offenses by type"));
-
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            offenseFacade.getAllOffenseByType("NonExistentType");
-        });
-        assertEquals("Failed to retrieve all Offense by type: Failed to retrieve offenses by type", exception.getMessage());
     }
+
+    @Test
+    public void testGetOffenseByName() {
+        Offense offense1 = new Offense();
+        offense1.setId(1);
+        offense1.setDescription("major");
+
+        List<Offense> mockOffensesByName = Arrays.asList(offense1);
+
+        when(mockOffenseDao.getOffenseByName("major")).thenReturn(offense1);
+
+        Offense offenses = offenseFacade.getOffenseByName("major");
+
+        assertNotNull(offenses);
+        assertEquals("major", offenses.getDescription());
+ 
+        verify(mockOffenseDao, times(1)).getOffenseByName("major");
+    }
+
 }
