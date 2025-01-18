@@ -90,8 +90,12 @@ public class EditViolationController{
         LocalDate currentDate = LocalDate.now();
         LocalDate selectedDate = dateField.getValue();
 
+        studentIdField.setStyle("");
+        dateField.setStyle("");
+
         // Check if the violation date is in the future
         if (selectedDate != null && selectedDate.isAfter(currentDate)) {
+            dateField.setStyle("-fx-border-color: red;");
             error4.setText("Invalid input: Violation date cannot be in the future.");
             error4.setFill(Color.RED);
             return;
@@ -101,6 +105,7 @@ public class EditViolationController{
 
         // Check if required fields are filled
         if (studentIdField.getText().isEmpty() || employeeIdField.getText().isEmpty() || dateField.getValue() == null) {
+            studentIdField.setStyle("-fx-border-color: red;");
             error.setText("Please fill in all required fields.");
             error.setFill(Color.RED);
             return;

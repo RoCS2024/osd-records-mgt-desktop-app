@@ -39,12 +39,27 @@ public class EditOffenseController implements Initializable {
     protected void saveEditOffenseClicked(ActionEvent event) {
         PrefectInfoMgtApplication app = new PrefectInfoMgtApplication();
         offenseFacade = app.getOffenseFacade();
+        boolean hasError = false;
 
         String offenseValue = offenseField.getText();
         String valOffense = comboBox.getValue();
 
+        offenseField.setStyle("");
+        comboBox.setStyle("");
+
+        if (offenseValue.isEmpty()) {
+            offenseField.setStyle("-fx-border-color: red;");
+            error.setText("Offense is empty. Please input Offense");
+            error.setFill(Color.RED);
+            hasError = true;
+        } else {
+            error.setText("");
+        }
+
+
         if (comboBox.getValue() == null || offenseField.getText().isEmpty()) {
-            error.setText( "Error Missing Information: Please fill in all required fields.");
+            comboBox.setStyle("-fx-border-color: red;");
+            error.setText( " Please fill in all required fields.");
             error.setFill(Color.RED);
             return;
         }else{
@@ -53,6 +68,7 @@ public class EditOffenseController implements Initializable {
 
         // Validate the length of the offense value
         if (offenseValue.length() > 32) {
+            offenseField.setStyle("-fx-border-color: red;");
             error.setText("Character must be 32 characters only");
             error.setFill(Color.RED);
             return;
@@ -62,11 +78,16 @@ public class EditOffenseController implements Initializable {
 
 // Validate if the offense value is alphanumeric
         if (!offenseValue.matches("[a-zA-Z0-9]+")) {
+            offenseField.setStyle("-fx-border-color: red;");
             error.setText("Alphanumeric characters only");
             error.setFill(Color.RED);
             return;
         } else {
             error.setText("");
+        }
+
+        if (hasError) {
+            return;
         }
 
 
@@ -82,7 +103,7 @@ public class EditOffenseController implements Initializable {
             offenseFacade.updateOffense(editOffense);
             showAlert(Alert.AlertType.INFORMATION, "Success", "Offense Updated", "Offense successfully updated.");
         } catch(Exception ex) {
-            error1.setText( "Error Update Failed: Failed to update offense. Please try again later.");
+            error1.setText( "Failed to update offense. Please try again later.");
             error1.setFill(Color.RED);
             ex.printStackTrace();
         }
